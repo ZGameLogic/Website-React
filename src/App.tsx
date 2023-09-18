@@ -1,10 +1,10 @@
 import React from 'react';
 import './style/App.css';
-import NavBar from "./components/NavBar";
-import {Route, Routes} from "react-router-dom";
-import Landing from "./pages/Landing";
-import Resume from "./pages/Resume";
-import Projects from "./pages/Projects";
+import NavBar from './components/NavBar';
+import {Route, Routes} from 'react-router-dom';
+import Landing from './pages/Landing';
+import Resume from './pages/Resume';
+import Projects from './pages/Projects';
 
 function App() {
     return (
