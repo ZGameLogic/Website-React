@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {getGitRepos} from '../services/GithubService';
 import ProjectCard from '../components/ProjectCard';
+import {Spinner} from 'react-bootstrap';
 
 function Projects() {
 
@@ -18,11 +19,11 @@ function Projects() {
 
     return isLoading ? (
         <>
-            <h1>Projects page</h1>
+            <Spinner className='spinner' animation="border" />
         </>
     ) : (
         <>
-            <h1>Projects found: {data.length}</h1>
+            <h1 className='socials'>Projects found: {data.length}</h1>
             {data.map(d => {
                 return <ProjectCard key={d.name} githubProject={d}/>;
             })}
