@@ -11,10 +11,10 @@ function ProjectCard(props) {
             <Card border={'dark'} style={{ width: '50%', margin: 'auto' }} className={'text-center'}>
                 <Card.Body>
                     <Card.Title>{githubProject.name}</Card.Title>
-                    <Card.Text></Card.Text>
-                    <Button href={githubProject.html_url} variant="dark">Repository Link</Button>
+                    <Card.Text>{githubProject.description}</Card.Text>
+                    <Button href={githubProject.url} variant="dark">Repository Link</Button>
                 </Card.Body>
-                <Card.Footer>Last updated: {githubProject.updated_at}</Card.Footer>
+                <Card.Footer>Last updated: {githubProject.updatedAt}</Card.Footer>
             </Card>
         </div>
     );
@@ -22,9 +22,10 @@ function ProjectCard(props) {
 
 ProjectCard.propTypes = {
     githubProject: PropTypes.shape({
+        description: PropTypes.string,
         name: PropTypes.string,
-        html_url: PropTypes.string,
-        updated_at: PropTypes.string
+        url: PropTypes.string,
+        updatedAt: PropTypes.string
     })
 };
 
