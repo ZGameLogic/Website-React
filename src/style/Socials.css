@@ -4,4 +4,11 @@
 
 .social-icon {
     margin: 5px;
+    transform: rotate(0deg);
+    transition: all 0.5s ease-in-out 0s;
+}
+
+.social-icon:hover {
+    transform: rotate(360deg);
+    transition: all 0.5s ease-in-out 0s;
 }
