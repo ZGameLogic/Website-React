@@ -1,5 +1,6 @@
 import React from 'react';
 import './style/App.css';
+import './style/Gradiant.css';
 import NavBar from './components/NavBar';
 import {Route, Routes} from 'react-router-dom';
 import Landing from './pages/Landing';
