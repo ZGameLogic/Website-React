@@ -1,3 +1,9 @@
 .input-header {
     width: 100px;
 }
+
+.block {
+    width: 50px;
+    height: 10px;
+    background-color: aqua;
+}

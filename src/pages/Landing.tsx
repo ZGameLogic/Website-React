@@ -9,7 +9,9 @@ function Landing() {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+        data.name;
+    };
 
     return(
         <>
@@ -24,6 +26,7 @@ function Landing() {
             <div className='socials'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FormGroup>
+                        <div className='block'/>
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Name"
@@ -39,9 +42,6 @@ function Landing() {
                                 isInvalid={!!errors.name}
                             />
                         </FloatingLabel>
-                        <Form.Control.Feedback type='invalid' className='search-user'>
-                            {errors.name?.message}
-                        </Form.Control.Feedback>
                     </FormGroup>
                     <FormGroup>
                         <FloatingLabel
@@ -52,7 +52,10 @@ function Landing() {
                             <Form.Control
                                 type="email"
                                 placeholder=""
-                                {...register('email', {required: true})}
+                                {...register('email', {required: {
+                                    value: true,
+                                    message: 'This field is required'
+                                }})}
                                 isInvalid={!!errors.email}
                             />
                         </FloatingLabel>
@@ -67,12 +70,15 @@ function Landing() {
                                 as="textarea"
                                 style={{ height: '100px' }}
                                 placeholder="Leave a message here"
-                                {...register('message', {required: true, maxLength: 8000})}
+                                {...register('message', {required: {
+                                    value: true,
+                                    message: 'This field is required'
+                                }, maxLength: 8000})}
                                 isInvalid={!!errors.message}
                             />
                         </FloatingLabel>
                     </FormGroup>
-                    <Button type='submit'>Submit</Button>
+                    <Button type='submit' variant='dark'>Submit</Button>
                 </form>
             </div>
         </>
@@ -80,45 +86,3 @@ function Landing() {
 }
 
 export default Landing;
-
-// <Form.Group className='mx-2 search-table-filter'>
-//
-//     <Form.Label id='user-id-input'>UserID</Form.Label>
-//
-//     <Form.Control
-//
-//         id='user-id'
-//
-//         value={userId}
-//
-//         {...register('userId', {
-//
-//             pattern: {
-//
-//                 value: xIDRegex,
-//
-//                 message: UserIdError,
-//
-//             },
-//
-//         })}
-//
-//         isInvalid={!!errors.userId}
-//
-//         onChange={(e: any) => setUserId(e.target.value)}
-//
-//         type='search'
-//
-//         className='uxf-search-bar'
-//
-//         placeholder='Enter UserId...'
-//
-//     />
-//
-//     <Form.Control.Feedback type='invalid' className='search-user'>
-//
-//         {errors.userId?.message}
-//
-//     </Form.Control.Feedback>
-//
-// </Form.Group>
