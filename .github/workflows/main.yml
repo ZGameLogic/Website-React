@@ -21,7 +21,7 @@ jobs:
       - name: Stop service
         run: net stop Website-React
       - name: Remove old build
-        run: rmdir /q C:\Users\Ben\Desktop\services\React-Website\build
+        run: rmdir C:\Users\Ben\Desktop\services\React-Website\build
       - name: Deploy new build
         run: move C:\Git\_work\Website-React\Website-React\build C:\Users\Ben\Desktop\services\React-Website
       - name: Start service
