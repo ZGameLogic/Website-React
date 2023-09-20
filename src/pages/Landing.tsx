@@ -26,7 +26,6 @@ function Landing() {
             <div className='socials'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FormGroup>
-                        <div className='block'/>
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Name"
