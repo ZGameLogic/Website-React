@@ -7,3 +7,20 @@
     height: 10px;
     background-color: aqua;
 }
+
+.form-card {
+    width: 35%;
+    margin: auto;
+}
+
+.error-toast {
+    /*margin: auto;*/
+    /*position: absolute;*/
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*text-align: center;*/
+    /*z-index: 1000;*/
+    /*right: 35%;*/
+    /*top: 10%;*/
+}

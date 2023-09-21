@@ -23,7 +23,7 @@ function Projects() {
         </>
     ) : (
         <>
-            <h1 className='socials'>Projects found: {data.length}</h1>
+            <h1 className='socials'>Public projects found: {data.length}</h1>
             {data.map(d => {
                 return <ProjectCard key={d.name} githubProject={d}/>;
             })}
