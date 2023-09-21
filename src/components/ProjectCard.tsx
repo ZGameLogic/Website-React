@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Card, Table} from 'react-bootstrap';
+import {Accordion, Card, Table} from 'react-bootstrap';
 import '../style/ProjectCard.css';
 import {SocialIcon} from 'react-social-icons';
 
@@ -9,31 +9,37 @@ function ProjectCard(props) {
 
     return (
         <div className={'project-card'}>
-            <Card border={'dark'} className={'text-center'}>
+            <Card bg={'secondary'} border={'dark'} className={'text-center'}>
                 <Card.Body>
                     <Card.Title>{githubProject.name}</Card.Title>
                     <Card.Text>{githubProject.description}</Card.Text>
-                    <Card.Text>Recent commits</Card.Text>
-                    <Table striped bordered responsive variant='dark' size='sm'>
-                        <thead>
-                        <tr>
-                            <th>Author</th>
-                            <th>Message</th>
-                            <th>Commit Link</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {githubProject.commits.map(commit => {
-                            return (<tr key={commit.url}>
-                                <td>{commit.authorName}</td>
-                                <td>{commit.commitMessage}</td>
-                                <td>
-                                    <SocialIcon className='social-icon' url={commit.url}/>
-                                </td>
-                            </tr>);
-                        })}
-                        </tbody>
-                    </Table>
+                    <Accordion>
+                        <Accordion.Item eventKey={githubProject.name}>
+                            <Accordion.Header>Recent Commits</Accordion.Header>
+                            <Accordion.Body>
+                                <Table striped bordered responsive variant='dark' size='sm'>
+                                    <thead>
+                                    <tr>
+                                        <th>Author</th>
+                                        <th>Message</th>
+                                        <th>Commit Link</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {githubProject.commits.map(commit => {
+                                        return (<tr key={commit.url}>
+                                            <td>{commit.authorName}</td>
+                                            <td>{commit.commitMessage}</td>
+                                            <td>
+                                                <SocialIcon className='social-icon' url={commit.url}/>
+                                            </td>
+                                        </tr>);
+                                    })}
+                                    </tbody>
+                                </Table>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
                     <div>
                         <p>Repository link: </p>
                         <SocialIcon className='social-icon' url={githubProject.url}/>
