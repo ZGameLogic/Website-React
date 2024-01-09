@@ -16,9 +16,5 @@ jobs:
     runs-on: self-hosted
     needs: Build
     steps:
-      - name: Stop service
-        run: net stop Website-React
       - name: Deploy website
         run: npm run build
-      - name: Start service
-        run: net start Website-React
