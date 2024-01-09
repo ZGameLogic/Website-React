@@ -5,7 +5,6 @@ import ContactMeForm from '../components/ContactMeForm';
 import {ListGroup} from 'react-bootstrap';
 
 function Landing() {
-
     return(
         <>
             <h1 className='socials'>Social Media</h1>
