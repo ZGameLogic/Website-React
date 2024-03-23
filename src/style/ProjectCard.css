@@ -1,3 +1,12 @@
+.project-bookmark {
+    width: 18rem;
+    margin-bottom: 5px;
+}
+
+.project-title {
+    margin-left: 10px;
+}
+
 .project-card {
     padding: 15px;
     width: 50%;
@@ -10,3 +19,15 @@
     top: 50%;
     right: 50%;
 }
+
+.hamburger-button {
+    position: fixed;
+    left: 10px;
+    margin-top: 10px;
+    background-color: #2b3035;
+    transition: left 0.3s ease;
+}
+
+/*.hamburger-button.pushed {*/
+/*    left: 25rem;*/
+/*}*/
