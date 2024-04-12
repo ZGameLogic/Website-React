@@ -55,3 +55,30 @@ export function SOTDataToYesPercentageByDay(data) {
         Patrick: days[day] ? days[day].patrick : 0,
     }));
 }
+
+export function SOTDataToYesPercentageByDayAndSuccess(data) {
+    data = data.filter(item => item.success);
+    data.forEach(item => {
+        const day = new Date(item.proposed).getDay();
+        item.dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day];
+    });
+
+    const days = {};
+    data.forEach(({dayOfWeek, ben, greg, jj, patrick}) => {
+        if (!days[dayOfWeek]) days[dayOfWeek] = { ben: 0, greg: 0, jj: 0, patrick: 0 };
+        days[dayOfWeek].ben += ben ? 1 : 0;
+        days[dayOfWeek].greg += greg ? 1 : 0;
+        days[dayOfWeek].jj += jj ? 1 : 0;
+        days[dayOfWeek].patrick += patrick ? 1 : 0;
+    });
+
+    const dayOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    return dayOrder.map(day => ({
+        day,
+        Ben: days[day] ? days[day].ben : 0,
+        Greg: days[day] ? days[day].greg : 0,
+        JJ: days[day] ? days[day].jj : 0,
+        Patrick: days[day] ? days[day].patrick : 0,
+    }));
+}
