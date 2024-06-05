@@ -18,6 +18,7 @@ function Landing() {
                 <h1>Contact Information</h1>
                 <ListGroup horizontal className='socials'>
                     <ListGroup.Item>benshabowski@gmail.com</ListGroup.Item>
+                    <ListGroup.Item>ben@zgamelogic.com</ListGroup.Item>
                     <ListGroup.Item>(630)-962-6976</ListGroup.Item>
                 </ListGroup>
             </div>
