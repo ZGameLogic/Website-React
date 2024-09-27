@@ -1,7 +1,6 @@
 import React from 'react';
 import { SocialIcon } from 'react-social-icons';
 import '../style/Socials.css';
-import ContactMeForm from '../components/ContactMeForm';
 import {ListGroup} from 'react-bootstrap';
 
 function Landing() {
@@ -17,12 +16,10 @@ function Landing() {
             <div className='socials'>
                 <h1>Contact Information</h1>
                 <ListGroup horizontal className='socials'>
-                    <ListGroup.Item>ben@zgamelogic.com</ListGroup.Item>
                     <ListGroup.Item>benshabowski@gmail.com</ListGroup.Item>
                     <ListGroup.Item>(630)-962-6976</ListGroup.Item>
                 </ListGroup>
             </div>
-            <ContactMeForm/>
         </>
     );
 }
