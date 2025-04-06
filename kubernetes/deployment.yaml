@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website
+  labels:
+    app: website
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: website
+  template:
+    metadata:
+      name: website
+      labels:
+        app: website
+    spec:
+      containers:
+        - name: website
+          image: ghcr.io/zgamelogic/website-react:master
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: "America/Chicago"
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-secret
