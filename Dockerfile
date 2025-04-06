@@ -1,4 +1,4 @@
-FROM arm64v8/node:18-alpine
+FROM node:18-alpine
 
 WORKDIR /build
 
