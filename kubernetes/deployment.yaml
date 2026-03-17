@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: website
-          image: ghcr.io/zgamelogic/website-react:master
+          image: ghcr.io/zgamelogic/website-react:production
           imagePullPolicy: Always
           env:
             - name: TZ
