@@ -8,7 +8,6 @@ jobs:
   build:
     permissions: write-all
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -46,3 +45,19 @@ jobs:
           tags: ghcr.io/zgamelogic/website-react:production
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/arm/v7
+
+  Kubernetes:
+    runs-on: PiServer
+    environment: production
+    needs: build
+    steps:
+      - name: Checkout Kubernetes Directory
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: 'kubernetes/'
+      - name: Apply Kubernetes Configuration
+        run: sudo kubectl apply -f kubernetes -n production
+      - name: Rolling update
+        run: sudo kubectl rollout restart deployment website -n production
+      - name: Wait for readiness probe
+        run: sudo kubectl rollout status deployment website -n production --timeout=600s
