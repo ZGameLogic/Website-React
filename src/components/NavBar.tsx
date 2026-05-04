@@ -22,9 +22,6 @@ function NavScrollExample() {
                         <LinkContainer to={'/'}>
                             <Nav.Link>Home</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer to={'/projects'}>
-                            <Nav.Link>Projects</Nav.Link>
-                        </LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
