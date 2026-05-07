@@ -16,6 +16,9 @@ export type GithubRepository = {
 }
 
 export type GithubRepositoryRich = {
-  name: string;
-  htmlUrl: string;
+  id: number;
+  environments: [{
+    name: string;
+    status: string;
+  }];
 }

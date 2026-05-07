@@ -3,6 +3,7 @@ import type {DashboardProject} from "../GlobalTypes.ts";
 
 export type DashboardDataContextType = {
   dashboardProjects: DashboardProject[];
+
   isInitialLoading: boolean;
 };
 
