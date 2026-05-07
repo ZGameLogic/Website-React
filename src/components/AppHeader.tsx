@@ -4,8 +4,8 @@ import {NavLink} from "react-router";
 function AppHeader() {
   return <AppBar position={'static'} >
     <Toolbar>
-      <Typography sx={{ marginRight: 5 }} variant={'h4'}>Ben Shabowski</Typography>
-      <Divider orientation={'vertical'} flexItem sx={{ marginRight: 5 }} />
+      <Typography sx={{ marginRight: 2 }} variant={'h4'}>Ben Shabowski</Typography>
+      <Divider orientation={'vertical'} flexItem sx={{ marginRight: 2 }} />
       <Button
         sx={{ borderRadius: 0, '&.active': { borderBottom: '2px solid white' } }}
         color={'inherit'}
