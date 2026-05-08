@@ -17,8 +17,8 @@ function AppHeader() {
         sx={{ borderRadius: 0, '&.active': { borderBottom: '2px solid white' } }}
         color={'inherit'}
         component={NavLink}
-        to={'/admin'}>
-        Admin Page
+        to={'/aboutme'}>
+        About Me
       </Button>
     </Toolbar>
   </AppBar>
