@@ -12,11 +12,13 @@ const DashboardDataContext = createContext<DashboardDataContextType>({
 });
 
 export function DashboardDataProvider({ children }: PropsWithChildren) {
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isInitialLoading, _] = useState(true);
   const [dashboardProjects, setDashboardProjects] = useState([]);
 
   useEffect(() => {
-    console.log('Bep');
+    fetch(`${import.meta.env.VITE_BACKEND_API_URL}/dashboard/projects`)
+      .then(res => res.json())
+      .then(data => setDashboardProjects(data));
   }, []);
 
   return <DashboardDataContext.Provider value={{
