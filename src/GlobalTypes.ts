@@ -22,3 +22,11 @@ export type GithubRepositoryRich = {
     status: string;
   }];
 }
+
+export type EmitterMessage =
+    | { type: 'DONE';      body: undefined }
+    | { type: 'DATA';      body: EmitterData }
+    | { type: 'RICH_DATA'; body: EmitterRichData };
+
+export type EmitterData = {}
+export type EmitterRichData = {}

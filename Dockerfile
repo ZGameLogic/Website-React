@@ -4,7 +4,7 @@ WORKDIR /build
 
 RUN npm install -g serve
 
-COPY build build
+COPY dist build
 
 EXPOSE 3000
 
