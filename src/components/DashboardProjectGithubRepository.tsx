@@ -1,7 +1,7 @@
 import { useDashboardData } from "../global/dashboard data/useDashboardData.ts";
 import { RiGitRepositoryLine, RiCheckboxCircleLine } from "react-icons/ri";
 import { FaRegCircleQuestion } from "react-icons/fa6";
-import { Box, Stack, Typography } from "@mui/material";
+import {Box, Link, Stack, Typography} from "@mui/material";
 
 type DashboardProjectGithubRepositoryProps = {
   id: number;
@@ -25,14 +25,10 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
     >
       <Stack direction="row" spacing={1} sx={{alignItems: "center"}}>
         <RiGitRepositoryLine />
-        <Typography>{repositoryData?.name ?? "Loading repository..."}</Typography>
+          <Link target="_blank" href={repositoryData?.html_url}>{repositoryData?.name ?? "Loading repository..."}</Link>
       </Stack>
 
-      {envs.length === 0 ? (
-        <Typography variant="body2" color="text.secondary">
-          No environment data yet
-        </Typography>
-      ) : (
+      {envs.length === 0 ?  <></> :
         <Stack spacing={0.75}>
           {envs.map((env) => {
             const ok = env.status === "success";
@@ -44,7 +40,7 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
             );
           })}
         </Stack>
-      )}
+      }
     </Box>
   );
 }
