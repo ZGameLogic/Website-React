@@ -23,7 +23,7 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
         bgcolor: "background.paper",
       }}
     >
-      <Stack direction="row" spacing={1} >
+      <Stack direction="row" spacing={1} sx={{alignItems: "center"}}>
         <RiGitRepositoryLine />
         <Typography>{repositoryData?.name ?? "Loading repository..."}</Typography>
       </Stack>
@@ -37,15 +37,9 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
           {envs.map((env) => {
             const ok = env.status === "success";
             return (
-              <Stack key={env.name} direction="row" spacing={1}>
+              <Stack key={env.name} direction="row" spacing={1} sx={{alignItems: "center"}}>
                 {ok ? <RiCheckboxCircleLine color="#2e7d32" /> : <FaRegCircleQuestion color="#ed6c02" />}
                 <Typography variant="body2">{env.name}</Typography>
-                <Chip
-                  size="small"
-                  label={ok ? "Healthy" : "Unknown"}
-                  color={ok ? "success" : "warning"}
-                  variant="outlined"
-                />
               </Stack>
             );
           })}
