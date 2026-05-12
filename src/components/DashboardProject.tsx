@@ -3,7 +3,7 @@ import {Box, Card, CardContent, Chip, Stack, Typography} from "@mui/material";
 import DashboardProjectGithubRepository from "./DashboardProjectGithubRepository.tsx";
 import {useMemo} from "react";
 import { FaJava, FaDocker } from "react-icons/fa";
-import { SiSpring, SiGodotengine, SiLua } from "react-icons/si";
+import { SiSpring, SiGodotengine, SiLua, SiApachemaven } from "react-icons/si";
 import { GrHtml5 } from "react-icons/gr";
 import { AiOutlineKubernetes } from "react-icons/ai";
 import { TbBrandTypescript } from "react-icons/tb";
@@ -63,6 +63,7 @@ function DashboardProject({projectId}: DashboardProjectProps) {
           case "Swift": return <LiaSwift />;
           case "Lua": return <SiLua />;
           case "GDScript": return <SiGodotengine />;
+          case "Maven": return <SiApachemaven />;
           default: return <></>;
         }
       })}
