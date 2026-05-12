@@ -1,5 +1,5 @@
 import {useDashboardData} from "../global/dashboard data/useDashboardData.ts";
-import {Box, Card, CardContent, Chip, Stack, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, Chip, Stack, Typography} from "@mui/material";
 import DashboardProjectGithubRepository from "./DashboardProjectGithubRepository.tsx";
 import {useMemo} from "react";
 import { FaJava, FaDocker, FaReact } from "react-icons/fa";
@@ -50,6 +50,16 @@ function DashboardProject({projectId}: DashboardProjectProps) {
       }
       <Box sx={{marginY: 1}}>
         {project.githubRepositoryLinks.map(link => <DashboardProjectGithubRepository id={link} key={link} />)}
+      </Box>
+      <Box sx={{marginBottom: 1}}>
+        {project.mavenUrls.map(url =>
+          <Button
+            startIcon={<SiApachemaven />}
+            variant={'outlined'}
+            href={url}
+            target="_blank"
+          >Maven Repository Link</Button>
+        )}
       </Box>
       {projectLanguages.map(language => {
         switch(language){

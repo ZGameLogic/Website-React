@@ -6,6 +6,7 @@ export type DashboardProject = {
   githubRepositoryLinks: number[];
   additionalAspects: string[];
   dataOtterProjectLinks: number[];
+  mavenUrls: string[];
 };
 
 export type EmitterMessage =
