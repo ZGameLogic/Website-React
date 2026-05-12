@@ -1,19 +1,33 @@
-import React from 'react';
-import './style/App.css';
-import './style/Gradiant.css';
-import NavBar from './components/NavBar';
-import {Route, Routes} from 'react-router-dom';
-import Landing from './pages/Landing';
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import {CssBaseline} from "@mui/material";
+import AppHeader from "./components/AppHeader.tsx";
+import {BrowserRouter, Route, Routes} from "react-router";
+import DashboardPage from "./pages/dashboard/DashboardPage.tsx";
+import {DashboardDataProvider} from "./global/dashboard data/DashboardDataProvider.tsx";
+import AboutMePage from "./pages/aboutme/AboutMePage.tsx";
 
 function App() {
-    return (
-        <>
-            <NavBar/>
-            <Routes>
-                <Route path="/" element={<Landing/>}/>
-            </Routes>
-        </>
-    );
+  const theme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#9b3fba'
+      }
+    },
+  });
+
+  return <ThemeProvider theme={theme}>
+    <BrowserRouter>
+      <DashboardDataProvider>
+        <CssBaseline />
+        <AppHeader />
+        <Routes>
+          <Route path={'/'} element={<DashboardPage />} />
+          <Route path={'/aboutme'} element={<AboutMePage />} />
+        </Routes>
+      </DashboardDataProvider>
+    </BrowserRouter>
+  </ThemeProvider>;
 }
 
-export default App;
+export default App
