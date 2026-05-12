@@ -1,7 +1,7 @@
 import {useDashboardData} from "../global/dashboard data/useDashboardData.ts";
-import {Box, Card, CardContent, Typography} from "@mui/material";
+import {Box, Card, CardContent, Stack, Typography} from "@mui/material";
 import DashboardProjectGithubRepository from "./DashboardProjectGithubRepository.tsx";
-import {useEffect, useMemo} from "react";
+import {useMemo} from "react";
 import { FaJava, FaDocker } from "react-icons/fa";
 import { SiSpring, SiGodotengine, SiLua } from "react-icons/si";
 import { GrHtml5 } from "react-icons/gr";
@@ -11,50 +11,58 @@ import { RiJavascriptLine } from "react-icons/ri";
 import { LiaSwift } from "react-icons/lia";
 
 type DashboardProjectProps = {
-    projectId: string;
+  projectId: string;
 }
 
 function DashboardProject({projectId}: DashboardProjectProps) {
-    const {getDashboardProject, getRepositoryRichData} = useDashboardData();
-    const project = getDashboardProject(projectId);
-    const projectLanguages = useMemo(() => {
-        if (!project) return [];
+  const {getDashboardProject, getRepositoryRichData, getMonitorRichData} = useDashboardData();
+  const project = getDashboardProject(projectId);
+  const monitorsStatus = useMemo(() => (project?.dataOtterProjectLinks
+    .map(link => getMonitorRichData(link))
+    .filter(m => m !== undefined) ?? [])
+    .reduce((acc, monitor) => acc && monitor.status, true)
+    , [project, getMonitorRichData]);
+  const projectLanguages = useMemo(() => {
+    if (!project) return [];
 
-        const repoLanguages = project.githubRepositoryLinks
-            .map(link => getRepositoryRichData(link))
-            .flatMap(data => Object.keys(data?.languages ?? {}));
+    const repoLanguages = project.githubRepositoryLinks
+      .map(link => getRepositoryRichData(link))
+      .flatMap(data => Object.keys(data?.languages ?? {}));
 
-        return [...new Set([...repoLanguages, ...project.additionalAspects])];
-    }, [project, getRepositoryRichData]);
+    return [...new Set([...repoLanguages, ...project.additionalAspects])];
+  }, [project, getRepositoryRichData]);
 
-    useEffect(() => console.log(projectLanguages), [projectLanguages]);
+  if(!project) return <></>;
 
-    if(!project) return <></>;
-
-    return <Card sx={{ maxWidth: 345 }}>
-        <CardContent>
-            <Typography variant="h5">{project.name}</Typography>
-            <Typography>{project.description}</Typography>
-            <Box sx={{marginY: 1}}>
-                {project.githubRepositoryLinks.map(link => <DashboardProjectGithubRepository id={link} key={link} />)}
-            </Box>
-            {projectLanguages.map(language => {
-                switch(language){
-                    case "Java": return <FaJava />
-                    case "Spring": return <SiSpring />;
-                    case "HTML": return <GrHtml5 />;
-                    case "Dockerfile": return <FaDocker />;
-                    case "Kubernetes": return <AiOutlineKubernetes />;
-                    case "TypeScript": return <TbBrandTypescript />;
-                    case "JavaScript": return <RiJavascriptLine />;
-                    case "Swift": return <LiaSwift />;
-                    case "Lua": return <SiLua />;
-                    case "GDScript": return <SiGodotengine />;
-                    default: return <></>;
-                }
-            })}
-        </CardContent>
-    </Card>;
+  return <Card sx={{ maxWidth: 345 }}>
+    <CardContent>
+      <Typography variant="h5">{project.name}</Typography>
+      <Typography>{project.description}</Typography>
+      {project.dataOtterProjectLinks.length > 0 && <Stack direction={'row'}>
+          <Typography sx={{marginRight: 1}}>Monitor Status:</Typography>
+          {monitorsStatus ? <Typography color={'success'}>Up</Typography> : <Typography color={'error'}>Down</Typography>}
+        </Stack>
+      }
+      <Box sx={{marginY: 1}}>
+        {project.githubRepositoryLinks.map(link => <DashboardProjectGithubRepository id={link} key={link} />)}
+      </Box>
+      {projectLanguages.map(language => {
+        switch(language){
+          case "Java": return <FaJava />
+          case "Spring": return <SiSpring />;
+          case "HTML": return <GrHtml5 />;
+          case "Dockerfile": return <FaDocker />;
+          case "Kubernetes": return <AiOutlineKubernetes />;
+          case "TypeScript": return <TbBrandTypescript />;
+          case "JavaScript": return <RiJavascriptLine />;
+          case "Swift": return <LiaSwift />;
+          case "Lua": return <SiLua />;
+          case "GDScript": return <SiGodotengine />;
+          default: return <></>;
+        }
+      })}
+    </CardContent>
+  </Card>;
 }
 
 export default DashboardProject;

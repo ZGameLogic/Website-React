@@ -5,12 +5,19 @@ export type DashboardProject = {
   githubProjectLinks: number[];
   githubRepositoryLinks: number[];
   additionalAspects: string[];
+  dataOtterProjectLinks: number[];
 };
 
 export type EmitterMessage =
     | { type: 'DONE'; }
-    | { type: 'DATA';      body: GithubRepositoryData }
-    | { type: 'RICH_DATA'; body: GithubRepositoryRichData };
+    | { type: 'DATA';         body: GithubRepositoryData; }
+    | { type: 'RICH_DATA';    body: GithubRepositoryRichData; }
+    | { type: 'MONITOR_DATA'; body: DataOtterMonitorRichData; };
+
+export type DataOtterMonitorRichData = {
+  id: number;
+  status: boolean;
+}
 
 export type GithubRepositoryData = {
   deployments_url: string;
