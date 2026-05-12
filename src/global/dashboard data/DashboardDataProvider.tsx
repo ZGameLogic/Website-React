@@ -1,26 +1,11 @@
-import {createContext, type PropsWithChildren, useContext, useEffect, useState} from "react";
+import { type PropsWithChildren, useCallback, useEffect, useState } from "react";
 import type {
   DashboardProject,
   EmitterMessage,
   GithubRepositoryData,
   GithubRepositoryRichData
-} from "../GlobalTypes.ts";
-
-export type DashboardDataContextType = {
-  dashboardProjects: DashboardProject[];
-  isInitialLoading: boolean;
-  isLoadingRepositoryData: (repoId: number) => boolean;
-  getRepositoryData: (repoId: number) => GithubRepositoryData | undefined;
-  getDashboardProject: (projectId: number) => DashboardProject;
-};
-
-const DashboardDataContext = createContext<DashboardDataContextType>({
-  dashboardProjects: [],
-  isInitialLoading: true,
-  isLoadingRepositoryData: () => true,
-  getRepositoryData: () => undefined,
-  getDashboardProject: () => {}
-});
+} from "../../GlobalTypes.ts";
+import { DashboardDataContext } from "./DashboardDataContext";
 
 export function DashboardDataProvider({ children }: PropsWithChildren) {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
@@ -35,23 +20,24 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
         setDashboardProjects(data);
         setIsInitialLoading(false);
       });
+
     const stream = new EventSource(`${import.meta.env.VITE_BACKEND_API_URL}/dashboard/projects/rich`);
 
     stream.onmessage = (event) => {
-      const parsed : EmitterMessage = JSON.parse(event.data);
+      const parsed: EmitterMessage = JSON.parse(event.data);
+
       switch (parsed.type) {
-        case 'DATA':
+        case "DATA":
           setGithubRepositories(prev => [...prev, parsed.body]);
           break;
-        case 'RICH_DATA':
+        case "RICH_DATA":
           setGithubRepoRichData(prev => [...prev, parsed.body]);
           break;
-        case 'DONE':
+        case "DONE":
           stream.close();
           return;
-          break;
         default:
-          console.warn("Unknown message type:", parsed.type);
+          break;
       }
     };
 
@@ -62,26 +48,33 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
 
   const isLoadingRepositoryData = useCallback((repoId: number) => {
     return githubRepositories.filter(repo => repo.id === repoId).length !== 0 &&
-        githubRepoRichData.filter(repo => repo.id === repoId).length !== 0;
+      githubRepoRichData.filter(repo => repo.id === repoId).length !== 0;
   }, [githubRepositories, githubRepoRichData]);
 
   const getRepositoryData = useCallback((repoId: number) => {
     return githubRepositories.find(repo => repo.id === repoId);
   }, [githubRepositories]);
 
-  const getDashboardProject = useCallback((projectId: number) => {
+  const getRepositoryRichData = useCallback((repoId: number) => {
+    return githubRepoRichData.find(repo => repo.id === repoId);
+  }, [githubRepoRichData]);
+
+  const getDashboardProject = useCallback((projectId: string) => {
     return dashboardProjects.find(project => project.id === projectId);
-  });
+  }, [dashboardProjects]);
 
-  return <DashboardDataContext.Provider value={{
-    dashboardProjects,
-    isInitialLoading,
-    isLoadingRepositoryData,
-    getRepositoryData,
-    getDashboardProject
-  }}>{children}</DashboardDataContext.Provider>;
-}
-
-export function useDashboardData() {
-  return useContext(DashboardDataContext);
+  return (
+    <DashboardDataContext.Provider
+      value={{
+        dashboardProjects,
+        isInitialLoading,
+        isLoadingRepositoryData,
+        getRepositoryData,
+        getDashboardProject,
+        getRepositoryRichData
+      }}
+    >
+      {children}
+    </DashboardDataContext.Provider>
+  );
 }

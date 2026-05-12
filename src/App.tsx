@@ -3,7 +3,7 @@ import {CssBaseline} from "@mui/material";
 import AppHeader from "./components/AppHeader.tsx";
 import {BrowserRouter, Route, Routes} from "react-router";
 import DashboardPage from "./pages/dashboard/DashboardPage.tsx";
-import {DashboardDataProvider} from "./global/DashboardData.tsx";
+import {DashboardDataProvider} from "./global/dashboard data/DashboardDataProvider.tsx";
 import AboutMePage from "./pages/aboutme/AboutMePage.tsx";
 
 function App() {

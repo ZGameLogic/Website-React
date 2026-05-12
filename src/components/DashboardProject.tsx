@@ -1,14 +1,24 @@
-import {useDashboardData} from "../global/DashboardData";
+import {useDashboardData} from "../global/dashboard data/useDashboardData.ts";
+import {Card, CardContent, Typography} from "@mui/material";
+import DashboardProjectGithubRepository from "./DashboardProjectGithubRepository.tsx";
 
 type DashboardProjectProps = {
     projectId: string;
 }
 
 function DashboardProject({projectId}: DashboardProjectProps) {
-    const {getDashboardProject, getRepositoryData} = useDashboardData();
+    const {getDashboardProject} = useDashboardData();
     const project = getDashboardProject(projectId);
 
-    return <h1>{project.name}</h1>;
+    if(!project) return <></>;
+
+    return <Card sx={{ maxWidth: 345 }}>
+        <CardContent>
+            <Typography variant="h5">{project.name}</Typography>
+            <Typography>{project.description}</Typography>
+            {project.githubRepositoryLinks.map(link => <DashboardProjectGithubRepository id={link} />)}
+        </CardContent>
+    </Card>;
 }
 
 export default DashboardProject;

@@ -1,6 +1,6 @@
 import DashboardProject from '../../components/DashboardProject';
-import {useDashboardData} from "../../global/DashboardData";
 import {Box} from "@mui/material";
+import {useDashboardData} from "../../global/dashboard data/useDashboardData.ts";
 
 function DashboardPage(){
     const {isInitialLoading, dashboardProjects} = useDashboardData();
