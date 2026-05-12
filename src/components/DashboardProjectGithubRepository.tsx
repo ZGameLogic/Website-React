@@ -1,9 +1,8 @@
 import { useDashboardData } from "../global/dashboard data/useDashboardData.ts";
-import {RiGitRepositoryLine, RiCheckboxCircleLine, RiArrowDownSLine} from "react-icons/ri";
+import {RiGitRepositoryLine, RiCheckboxCircleLine} from "react-icons/ri";
 import { FaRegCircleQuestion } from "react-icons/fa6";
-import {Box, Button, Collapse, Link, Stack, Tooltip, Typography} from "@mui/material";
+import {Box, Divider, Link, Stack, Tooltip, Typography} from "@mui/material";
 import { GoTag } from "react-icons/go";
-import {useState} from "react";
 
 type DashboardProjectGithubRepositoryProps = {
   id: number;
@@ -12,7 +11,6 @@ type DashboardProjectGithubRepositoryProps = {
 function DashboardProjectGithubRepository({ id }: DashboardProjectGithubRepositoryProps) {
   const repositoryData = useDashboardData().getRepositoryData(id);
   const repositoryRichData = useDashboardData().getRepositoryRichData(id);
-  const [envOpen, setEnvOpen] = useState<boolean>(true);
 
   const envs = repositoryRichData?.environments ?? [];
 
@@ -39,34 +37,24 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
         <Link target="_blank" href={repositoryRichData.release.html_url}>{repositoryRichData.release.name}</Link>
       </Stack>: <></>}
 
-      {envs.length === 0 ?  <></> :
+      {envs.length > 0 &&
         <>
-          <Button
-            variant={'text'}
-            size="small"
-            color="inherit"
-            onClick={() => setEnvOpen(prevState => !prevState)}
-            endIcon={<RiArrowDownSLine style={{ transform: envOpen ? 'rotate(0deg)' : 'rotate(-90deg)', transition: 'transform 0.2s', fontSize: '0.75rem', color: 'inherit' }} />}
-            sx={{
+          <Divider textAlign="left">
+            <Typography sx={{
               color: 'text.secondary',
-              fontSize: '0.5rem',
-              textTransform: 'none'
-            }}
-          >
-            Deployments
-          </Button>
+              fontSize: '0.68rem'
+            }}>Deployments</Typography>
+          </Divider>
           <Stack spacing={0.0}>
             {envs.map((env) => {
               const ok = env.status === "success";
-              return <Collapse in={envOpen} >
-                  <Stack key={env.name} direction="row" spacing={1} sx={{alignItems: "center"}}>
-                    {ok ? <RiCheckboxCircleLine color="#2e7d32" /> : <FaRegCircleQuestion color="#ed6c02" />}
-                    <Typography variant="body2">{env.name}</Typography>
-                  </Stack>
-                </Collapse>;
+              return <Stack key={env.name} direction="row" spacing={1} sx={{alignItems: "center"}}>
+                  {ok ? <RiCheckboxCircleLine color="#2e7d32" /> : <FaRegCircleQuestion color="#ed6c02" />}
+                  <Typography variant="body2">{env.name}</Typography>
+                </Stack>;
             })}
           </Stack>
-          </>
+        </>
       }
     </Box>
   );
