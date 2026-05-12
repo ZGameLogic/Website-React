@@ -53,7 +53,7 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
               textTransform: 'none'
             }}
           >
-            Environments
+            Deployments
           </Button>
           <Stack spacing={0.0}>
             {envs.map((env) => {
