@@ -31,4 +31,8 @@ export type GithubRepositoryRichData = {
     status: string;
   }];
   languages: [string:number];
+  release?: {
+    html_url: string;
+    name: string;
+  }
 }
