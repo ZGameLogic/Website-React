@@ -44,7 +44,7 @@ jobs:
           push: true
           tags: ghcr.io/zgamelogic/website-react:production
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/arm/v7
+          platforms: linux/arm64
 
   Kubernetes:
     runs-on: PiServer
