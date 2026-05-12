@@ -1,5 +1,5 @@
 import {useDashboardData} from "../global/dashboard data/useDashboardData.ts";
-import {Box, Card, CardContent, Stack, Typography} from "@mui/material";
+import {Box, Card, CardContent, Chip, Stack, Typography} from "@mui/material";
 import DashboardProjectGithubRepository from "./DashboardProjectGithubRepository.tsx";
 import {useMemo} from "react";
 import { FaJava, FaDocker } from "react-icons/fa";
@@ -38,9 +38,14 @@ function DashboardProject({projectId}: DashboardProjectProps) {
     <CardContent>
       <Typography variant="h5">{project.name}</Typography>
       <Typography>{project.description}</Typography>
-      {project.dataOtterProjectLinks.length > 0 && <Stack direction={'row'}>
+      {project.dataOtterProjectLinks.length > 0 && <Stack direction={'row'} sx={{alignItems: 'center'}}>
           <Typography sx={{marginRight: 1}}>Monitor Status:</Typography>
-          {monitorsStatus ? <Typography color={'success'}>Up</Typography> : <Typography color={'error'}>Down</Typography>}
+          <Chip
+            size={'small'}
+            color={monitorsStatus ? 'success' : 'error'}
+            variant={'outlined'}
+            label={monitorsStatus ? 'Up' : 'Down'}
+          />
         </Stack>
       }
       <Box sx={{marginY: 1}}>
