@@ -1,4 +1,4 @@
-FROM node:18-bullseye
+FROM node:25-bullseye
 
 WORKDIR /dist
 

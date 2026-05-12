@@ -1,7 +1,7 @@
 import { useDashboardData } from "../global/dashboard data/useDashboardData.ts";
 import { RiGitRepositoryLine, RiCheckboxCircleLine } from "react-icons/ri";
 import { FaRegCircleQuestion } from "react-icons/fa6";
-import { Box, Chip, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 
 type DashboardProjectGithubRepositoryProps = {
   id: number;
