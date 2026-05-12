@@ -1,4 +1,4 @@
-FROM node:25-bookworm
+FROM node:25.9.0-bookworm
 
 WORKDIR /dist
 
