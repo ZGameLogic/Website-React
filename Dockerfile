@@ -1,11 +1,11 @@
 FROM node:18-bullseye
 
-WORKDIR /build
+WORKDIR /dist
 
 RUN npm install -g serve
 
-COPY dist build
+COPY dist dist
 
 EXPOSE 3000
 
-CMD ["serve", "-s", "build"]
+CMD ["serve", "-s", "dist", "-l", "3000"]

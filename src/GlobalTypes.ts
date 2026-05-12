@@ -4,6 +4,7 @@ export type DashboardProject = {
   description: string;
   githubProjectLinks: number[];
   githubRepositoryLinks: number[];
+  additionalAspects: string[];
 };
 
 export type EmitterMessage =
