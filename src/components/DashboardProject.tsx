@@ -1,5 +1,5 @@
 import {useDashboardData} from "../global/dashboard data/useDashboardData.ts";
-import {Box, Button, Card, CardContent, Chip, Stack, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, Chip, Divider, Stack, Typography} from "@mui/material";
 import DashboardProjectGithubRepository from "./DashboardProjectGithubRepository.tsx";
 import {useMemo} from "react";
 import { FaJava, FaDocker, FaReact } from "react-icons/fa";
@@ -38,20 +38,40 @@ function DashboardProject({projectId}: DashboardProjectProps) {
     <CardContent>
       <Typography variant="h5">{project.name}</Typography>
       <Typography>{project.description}</Typography>
-      {project.dataOtterProjectLinks.length > 0 && <Stack direction={'row'} sx={{alignItems: 'center'}}>
-          <Typography sx={{marginRight: 1}}>Monitor Status:</Typography>
-          <Chip
-            size={'small'}
-            color={monitorsStatus ? 'success' : 'error'}
-            variant={'outlined'}
-            label={monitorsStatus ? 'Up' : 'Down'}
-          />
-        </Stack>
+      {project.dataOtterProjectLinks.length > 0 && <>
+          <Divider textAlign="left">
+              <Typography sx={{
+                color: 'text.secondary',
+                fontSize: '0.68rem'
+              }}>Data Otter Monitors</Typography>
+          </Divider>
+          <Stack direction={'row'} sx={{alignItems: 'center'}}>
+            <Typography sx={{marginRight: 1}}>Monitor Status:</Typography>
+            <Chip
+              size={'small'}
+              color={monitorsStatus ? 'success' : 'error'}
+              variant={'outlined'}
+              label={monitorsStatus ? 'Up' : 'Down'}
+            />
+          </Stack>
+        </>
       }
+      {project.githubRepositoryLinks.length > 0 && <Divider textAlign="left">
+        <Typography sx={{
+          color: 'text.secondary',
+          fontSize: '0.68rem'
+        }}>GitHub Repositories</Typography>
+      </Divider>}
       <Box sx={{marginY: 1}}>
         {project.githubRepositoryLinks.map(link => <DashboardProjectGithubRepository id={link} key={link} />)}
       </Box>
       <Box sx={{marginBottom: 1}}>
+        {project.mavenUrls.length > 0 && <Divider textAlign="left">
+            <Typography sx={{
+              color: 'text.secondary',
+              fontSize: '0.68rem'
+            }}>Maven Repository Links</Typography>
+        </Divider>}
         {project.mavenUrls.map(url =>
           <Button
             startIcon={<SiApachemaven />}
@@ -61,6 +81,12 @@ function DashboardProject({projectId}: DashboardProjectProps) {
           >Maven Repository Link</Button>
         )}
       </Box>
+      {projectLanguages.length > 0 && <Divider textAlign="left">
+        <Typography sx={{
+          color: 'text.secondary',
+          fontSize: '0.68rem'
+        }}>Project Languages/Frameworks</Typography>
+      </Divider>}
       {projectLanguages.map(language => {
         switch(language){
           case "Java": return <FaJava />
