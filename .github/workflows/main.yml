@@ -5,59 +5,12 @@ on:
     branches: [master]
 
 jobs:
-  build:
-    permissions: write-all
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build React App
-        run: npm run build
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}
-
-      - name: Build and push Docker image (for ARM)
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/zgamelogic/website-react:production
-          labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/arm64
-
-  Kubernetes:
-    runs-on: PiServer
-    environment: production
-    needs: build
-    steps:
-      - name: Checkout Kubernetes Directory
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: 'kubernetes/'
-      - name: Apply Kubernetes Configuration
-        run: sudo kubectl apply -f kubernetes -n production
-      - name: Rolling update
-        run: sudo kubectl rollout restart deployment website -n production
-      - name: Wait for readiness probe
-        run: sudo kubectl rollout status deployment website -n production --timeout=600s
+  deploy:
+    permissions:
+      contents: read
+      packages: write
+    uses: zgamelogic/github-actions/.github/workflows/kubernetes-react-deploy.yaml@v1.0.1
+    with:
+      environment: production
+      deploymentName: website
+      imageName: website-react
