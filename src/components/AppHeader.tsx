@@ -14,6 +14,7 @@ function AppHeader() {
         Project Dashboard
       </Button>
       <Button
+        disabled={true}
         sx={{ borderRadius: 0, '&.active': { borderBottom: '2px solid white' } }}
         color={'inherit'}
         component={NavLink}
