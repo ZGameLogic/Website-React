@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import type {
   DashboardProject,
-  DataOtterMonitorRichData,
+  DataOtterMonitorRichData, GithubProjectData,
   GithubRepositoryData,
   GithubRepositoryRichData
 } from "../../GlobalTypes.ts";
@@ -14,6 +14,7 @@ export type DashboardDataContextType = {
   getDashboardProject: (projectId: string) => DashboardProject | undefined;
   getRepositoryRichData: (repoId: number) => GithubRepositoryRichData | undefined;
   getMonitorRichData: (repoId: number) => DataOtterMonitorRichData | undefined;
+  getGithubProjectData: (projectId: number) => GithubProjectData | undefined;
 };
 
 export const DashboardDataContext = createContext<DashboardDataContextType>({
@@ -23,5 +24,6 @@ export const DashboardDataContext = createContext<DashboardDataContextType>({
   getRepositoryData: () => undefined,
   getDashboardProject: () => undefined,
   getRepositoryRichData: () => undefined,
-  getMonitorRichData: () => undefined
+  getMonitorRichData: () => undefined,
+  getGithubProjectData: () => undefined,
 });

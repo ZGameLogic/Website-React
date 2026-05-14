@@ -1,7 +1,7 @@
 import { type PropsWithChildren, useCallback, useEffect, useState } from "react";
 import type {
   DashboardProject, DataOtterMonitorRichData,
-  EmitterMessage,
+  EmitterMessage, GithubProjectData,
   GithubRepositoryData,
   GithubRepositoryRichData
 } from "../../GlobalTypes.ts";
@@ -13,6 +13,7 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
   const [githubRepositories, setGithubRepositories] = useState<GithubRepositoryData[]>([]);
   const [githubRepoRichData, setGithubRepoRichData] = useState<GithubRepositoryRichData[]>([]);
   const [monitorRichData, setMonitorRichData] = useState<DataOtterMonitorRichData[]>([]);
+  const [githubProjects, setGithubProjects] = useState<GithubProjectData[]>([]);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_API_URL}/dashboard/projects`)
@@ -36,6 +37,9 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
           break;
         case "MONITOR_DATA":
           setMonitorRichData(prev => [...prev, parsed.body]);
+          break;
+        case "PROJECT_DATA":
+          setGithubProjects(prev => [...prev, parsed.body]);
           break;
         case "DONE":
           stream.close();
@@ -71,6 +75,10 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
     return monitorRichData.find(application => application.id === applicationId);
   }, [monitorRichData]);
 
+  const getGithubProjectData = useCallback((projectId: number) => {
+    return githubProjects.find(project => project.id === projectId);
+  }, [githubProjects]);
+
   return (
     <DashboardDataContext.Provider
       value={{
@@ -80,7 +88,8 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
         getRepositoryData,
         getDashboardProject,
         getRepositoryRichData,
-        getMonitorRichData
+        getMonitorRichData,
+        getGithubProjectData
       }}
     >
       {children}

@@ -9,13 +9,14 @@ import { AiOutlineKubernetes } from "react-icons/ai";
 import { TbBrandTypescript } from "react-icons/tb";
 import { RiJavascriptLine } from "react-icons/ri";
 import { LiaSwift } from "react-icons/lia";
+import DashboardProjectGithubProject from "./DashboardProjectGithubProject.tsx";
 
 type DashboardProjectProps = {
   projectId: string;
 }
 
 function DashboardProject({projectId}: DashboardProjectProps) {
-  const {getDashboardProject, getRepositoryRichData, getMonitorRichData} = useDashboardData();
+  const {getDashboardProject, getRepositoryRichData, getMonitorRichData, getGithubProjectData} = useDashboardData();
   const project = getDashboardProject(projectId);
   const monitorsStatus = useMemo(() => (project?.dataOtterProjectLinks
     .map(link => getMonitorRichData(link))
@@ -31,6 +32,12 @@ function DashboardProject({projectId}: DashboardProjectProps) {
 
     return [...new Set([...repoLanguages, ...project.additionalAspects])];
   }, [project, getRepositoryRichData]);
+  const projectGithubProjects = useMemo(() => {
+    if(!project) return [];
+    return project.githubProjectLinks.map(link => getGithubProjectData(link))
+      .filter(p => p !== undefined);
+
+  }, [project, getGithubProjectData]);
 
   if(!project) return <></>;
 
@@ -54,6 +61,19 @@ function DashboardProject({projectId}: DashboardProjectProps) {
               label={monitorsStatus ? 'Up' : 'Down'}
             />
           </Stack>
+        </>
+      }
+      {project.githubProjectLinks.length > 0 && projectGithubProjects.length > 0 &&
+        <>
+          <Divider textAlign="left">
+            <Typography sx={{
+              color: 'text.secondary',
+              fontSize: '0.68rem'
+            }}>GitHub Projects</Typography>
+          </Divider>
+          <Box sx={{marginY: 1}}>
+            {project.githubProjectLinks.map(link => <DashboardProjectGithubProject id={link} key={link} />)}
+          </Box>
         </>
       }
       {project.githubRepositoryLinks.length > 0 && <Divider textAlign="left">

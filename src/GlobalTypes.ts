@@ -13,12 +13,20 @@ export type EmitterMessage =
     | { type: 'DONE'; }
     | { type: 'DATA';         body: GithubRepositoryData; }
     | { type: 'RICH_DATA';    body: GithubRepositoryRichData; }
-    | { type: 'MONITOR_DATA'; body: DataOtterMonitorRichData; };
+    | { type: 'MONITOR_DATA'; body: DataOtterMonitorRichData; }
+    | { type: 'PROJECT_DATA'; body: GithubProjectData; };
 
 export type DataOtterMonitorRichData = {
   id: number;
   status: boolean;
 }
+
+export type GithubProjectData = {
+  id: number;
+  number: number;
+  title: string;
+  description: string;
+};
 
 export type GithubRepositoryData = {
   deployments_url: string;
