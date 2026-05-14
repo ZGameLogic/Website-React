@@ -41,7 +41,7 @@ function DashboardProject({projectId}: DashboardProjectProps) {
 
   if(!project) return <></>;
 
-  return <Card sx={{ maxWidth: 345 }}>
+  return <Card sx={{ width: '100%' }}>
     <CardContent>
       <Typography variant="h5">{project.name}</Typography>
       <Typography>{project.description}</Typography>
