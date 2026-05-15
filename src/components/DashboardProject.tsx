@@ -13,6 +13,7 @@ import DashboardProjectGithubProject from "./DashboardProjectGithubProject.tsx";
 import IconTooltip from "./IconTooltip.tsx";
 import { GrMysql } from "react-icons/gr";
 import { DiPostgresql } from "react-icons/di";
+import { HiH2 } from "react-icons/hi2";
 
 type DashboardProjectProps = {
   projectId: string;
@@ -126,6 +127,7 @@ function DashboardProject({projectId}: DashboardProjectProps) {
           case "React": return <IconTooltip tooltip={'React'} icon={<FaReact />} />;
           case "Mysql": return <IconTooltip tooltip={'MySQL'} icon={<GrMysql />} />;
           case "Postgres": return <IconTooltip tooltip={'Postgres'} icon={<DiPostgresql />} />;
+          case "H2": return <IconTooltip tooltip={'H2'} icon={<HiH2 />} />;
           default: return <></>;
         }
       })}
