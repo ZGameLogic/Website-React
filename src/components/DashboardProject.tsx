@@ -10,6 +10,7 @@ import { TbBrandTypescript } from "react-icons/tb";
 import { RiJavascriptLine } from "react-icons/ri";
 import { LiaSwift } from "react-icons/lia";
 import DashboardProjectGithubProject from "./DashboardProjectGithubProject.tsx";
+import IconTooltip from "./IconTooltip.tsx";
 
 type DashboardProjectProps = {
   projectId: string;
@@ -109,18 +110,18 @@ function DashboardProject({projectId}: DashboardProjectProps) {
       </Divider>}
       {projectLanguages.map(language => {
         switch(language){
-          case "Java": return <FaJava />
-          case "Spring": return <SiSpring />;
-          case "HTML": return <GrHtml5 />;
-          case "Dockerfile": return <FaDocker />;
-          case "Kubernetes": return <AiOutlineKubernetes />;
-          case "TypeScript": return <TbBrandTypescript />;
-          case "JavaScript": return <RiJavascriptLine />;
-          case "Swift": return <LiaSwift />;
-          case "Lua": return <SiLua />;
-          case "GDScript": return <SiGodotengine />;
-          case "Maven": return <SiApachemaven />;
-          case "React": return <FaReact />;
+          case "Java": return <IconTooltip tooltip={'Java'} icon={<FaJava />} />;
+          case "Spring": return <IconTooltip tooltip={'Spring'} icon={<SiSpring />} />;
+          case "HTML": return <IconTooltip tooltip={'HTML'} icon={<GrHtml5 />} />;
+          case "Dockerfile": return <IconTooltip tooltip={'Docker'} icon={<FaDocker />} />;
+          case "Kubernetes": return <IconTooltip tooltip={'Kubernetes'} icon={<AiOutlineKubernetes />} />;
+          case "TypeScript": return <IconTooltip tooltip={'TypeScript'} icon={<TbBrandTypescript />} />;
+          case "JavaScript": return <IconTooltip tooltip={'JavaScript'} icon={<RiJavascriptLine />} />;
+          case "Swift": return <IconTooltip tooltip={'Swift'} icon={<LiaSwift />} />;
+          case "Lua": return <IconTooltip tooltip={'Lua'} icon={<SiLua />} />;
+          case "GDScript": return <IconTooltip tooltip={'GDScript'} icon={<SiGodotengine />} />;
+          case "Maven": return <IconTooltip tooltip={'Maven'} icon={<SiApachemaven />} />;
+          case "React": return <IconTooltip tooltip={'React'} icon={<FaReact />} />;
           default: return <></>;
         }
       })}
