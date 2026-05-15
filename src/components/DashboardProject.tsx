@@ -11,6 +11,8 @@ import { RiJavascriptLine } from "react-icons/ri";
 import { LiaSwift } from "react-icons/lia";
 import DashboardProjectGithubProject from "./DashboardProjectGithubProject.tsx";
 import IconTooltip from "./IconTooltip.tsx";
+import { GrMysql } from "react-icons/gr";
+import { DiPostgresql } from "react-icons/di";
 
 type DashboardProjectProps = {
   projectId: string;
@@ -122,6 +124,8 @@ function DashboardProject({projectId}: DashboardProjectProps) {
           case "GDScript": return <IconTooltip tooltip={'GDScript'} icon={<SiGodotengine />} />;
           case "Maven": return <IconTooltip tooltip={'Maven'} icon={<SiApachemaven />} />;
           case "React": return <IconTooltip tooltip={'React'} icon={<FaReact />} />;
+          case "Mysql": return <IconTooltip tooltip={'MySQL'} icon={<GrMysql />} />;
+          case "Postgres": return <IconTooltip tooltip={'Postgres'} icon={<DiPostgresql />} />;
           default: return <></>;
         }
       })}
