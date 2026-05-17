@@ -20,6 +20,7 @@ type DashboardProjectProps = {
 }
 
 function DashboardProject({projectId}: DashboardProjectProps) {
+  const LANGUAGE_SIZE = 23;
   const {getDashboardProject, getRepositoryRichData, getMonitorRichData, getGithubProjectData} = useDashboardData();
   const project = getDashboardProject(projectId);
   const monitorsStatus = useMemo(() => (project?.dataOtterProjectLinks
@@ -113,21 +114,21 @@ function DashboardProject({projectId}: DashboardProjectProps) {
       </Divider>}
       {projectLanguages.map(language => {
         switch(language){
-          case "Java": return <IconTooltip tooltip={'Java'} icon={<FaJava />} />;
-          case "Spring": return <IconTooltip tooltip={'Spring'} icon={<SiSpring />} />;
-          case "HTML": return <IconTooltip tooltip={'HTML'} icon={<GrHtml5 />} />;
-          case "Dockerfile": return <IconTooltip tooltip={'Docker'} icon={<FaDocker />} />;
-          case "Kubernetes": return <IconTooltip tooltip={'Kubernetes'} icon={<SiKubernetes />} />;
-          case "TypeScript": return <IconTooltip tooltip={'TypeScript'} icon={<TbBrandTypescript />} />;
-          case "JavaScript": return <IconTooltip tooltip={'JavaScript'} icon={<RiJavascriptLine />} />;
-          case "Swift": return <IconTooltip tooltip={'Swift'} icon={<LiaSwift />} />;
-          case "Lua": return <IconTooltip tooltip={'Lua'} icon={<SiLua />} />;
-          case "GDScript": return <IconTooltip tooltip={'GDScript'} icon={<SiGodotengine />} />;
-          case "Maven": return <IconTooltip tooltip={'Maven'} icon={<SiApachemaven />} />;
-          case "React": return <IconTooltip tooltip={'React'} icon={<FaReact />} />;
-          case "Mysql": return <IconTooltip tooltip={'MySQL'} icon={<GrMysql />} />;
-          case "Postgres": return <IconTooltip tooltip={'Postgres'} icon={<SiPostgresql />} />;
-          case "H2": return <IconTooltip tooltip={'H2'} icon={<HiH2 />} />;
+          case "Java": return <IconTooltip tooltip={'Java'} icon={<FaJava size={LANGUAGE_SIZE} />} />;
+          case "Spring": return <IconTooltip tooltip={'Spring'} icon={<SiSpring size={LANGUAGE_SIZE} />} />;
+          case "HTML": return <IconTooltip tooltip={'HTML'} icon={<GrHtml5 size={LANGUAGE_SIZE} />} />;
+          case "Dockerfile": return <IconTooltip tooltip={'Docker'} icon={<FaDocker size={LANGUAGE_SIZE} />} />;
+          case "Kubernetes": return <IconTooltip tooltip={'Kubernetes'} icon={<SiKubernetes size={LANGUAGE_SIZE} />} />;
+          case "TypeScript": return <IconTooltip tooltip={'TypeScript'} icon={<TbBrandTypescript size={LANGUAGE_SIZE} />} />;
+          case "JavaScript": return <IconTooltip tooltip={'JavaScript'} icon={<RiJavascriptLine size={LANGUAGE_SIZE} />} />;
+          case "Swift": return <IconTooltip tooltip={'Swift'} icon={<LiaSwift size={LANGUAGE_SIZE} />} />;
+          case "Lua": return <IconTooltip tooltip={'Lua'} icon={<SiLua size={LANGUAGE_SIZE} />} />;
+          case "GDScript": return <IconTooltip tooltip={'GDScript'} icon={<SiGodotengine size={LANGUAGE_SIZE} />} />;
+          case "Maven": return <IconTooltip tooltip={'Maven'} icon={<SiApachemaven size={LANGUAGE_SIZE} />} />;
+          case "React": return <IconTooltip tooltip={'React'} icon={<FaReact size={LANGUAGE_SIZE} />} />;
+          case "Mysql": return <IconTooltip tooltip={'MySQL'} icon={<GrMysql size={LANGUAGE_SIZE} />} />;
+          case "Postgres": return <IconTooltip tooltip={'Postgres'} icon={<SiPostgresql size={LANGUAGE_SIZE} />} />;
+          case "H2": return <IconTooltip tooltip={'H2'} icon={<HiH2 size={LANGUAGE_SIZE} />} />;
           default: return <></>;
         }
       })}
