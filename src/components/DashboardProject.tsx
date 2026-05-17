@@ -5,14 +5,14 @@ import {useMemo} from "react";
 import { FaJava, FaDocker, FaReact } from "react-icons/fa";
 import { SiSpring, SiGodotengine, SiLua, SiApachemaven } from "react-icons/si";
 import { GrHtml5 } from "react-icons/gr";
-import { AiOutlineKubernetes } from "react-icons/ai";
+import { SiKubernetes } from "react-icons/si";
 import { TbBrandTypescript } from "react-icons/tb";
 import { RiJavascriptLine } from "react-icons/ri";
 import { LiaSwift } from "react-icons/lia";
 import DashboardProjectGithubProject from "./DashboardProjectGithubProject.tsx";
 import IconTooltip from "./IconTooltip.tsx";
 import { GrMysql } from "react-icons/gr";
-import { DiPostgresql } from "react-icons/di";
+import { SiPostgresql } from "react-icons/si";
 import { HiH2 } from "react-icons/hi2";
 
 type DashboardProjectProps = {
@@ -117,7 +117,7 @@ function DashboardProject({projectId}: DashboardProjectProps) {
           case "Spring": return <IconTooltip tooltip={'Spring'} icon={<SiSpring />} />;
           case "HTML": return <IconTooltip tooltip={'HTML'} icon={<GrHtml5 />} />;
           case "Dockerfile": return <IconTooltip tooltip={'Docker'} icon={<FaDocker />} />;
-          case "Kubernetes": return <IconTooltip tooltip={'Kubernetes'} icon={<AiOutlineKubernetes />} />;
+          case "Kubernetes": return <IconTooltip tooltip={'Kubernetes'} icon={<SiKubernetes />} />;
           case "TypeScript": return <IconTooltip tooltip={'TypeScript'} icon={<TbBrandTypescript />} />;
           case "JavaScript": return <IconTooltip tooltip={'JavaScript'} icon={<RiJavascriptLine />} />;
           case "Swift": return <IconTooltip tooltip={'Swift'} icon={<LiaSwift />} />;
@@ -126,7 +126,7 @@ function DashboardProject({projectId}: DashboardProjectProps) {
           case "Maven": return <IconTooltip tooltip={'Maven'} icon={<SiApachemaven />} />;
           case "React": return <IconTooltip tooltip={'React'} icon={<FaReact />} />;
           case "Mysql": return <IconTooltip tooltip={'MySQL'} icon={<GrMysql />} />;
-          case "Postgres": return <IconTooltip tooltip={'Postgres'} icon={<DiPostgresql />} />;
+          case "Postgres": return <IconTooltip tooltip={'Postgres'} icon={<SiPostgresql />} />;
           case "H2": return <IconTooltip tooltip={'H2'} icon={<HiH2 />} />;
           default: return <></>;
         }
