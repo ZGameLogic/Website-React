@@ -2,7 +2,7 @@ import { useDashboardData } from "../global/dashboard data/useDashboardData.ts";
 import {RiGitRepositoryLine, RiCheckboxCircleLine} from "react-icons/ri";
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import {Box, Divider, Link, Stack, Tooltip, Typography} from "@mui/material";
-import { GoTag } from "react-icons/go";
+import { GoTag, GoStar } from "react-icons/go";
 
 type DashboardProjectGithubRepositoryProps = {
   id: number;
@@ -14,6 +14,8 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
 
   const envs = repositoryRichData?.environments ?? [];
 
+  const showStars = repositoryData?.stargazers_count !== undefined && repositoryData.stargazers_count > 0;
+
   return (
     <Box
       sx={{
@@ -24,12 +26,21 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
         bgcolor: "background.paper",
       }}
     >
-      <Stack direction="row" spacing={1} sx={{alignItems: "center"}}>
-        <Tooltip title={'GitHub Repository'} arrow>
-          <RiGitRepositoryLine />
-        </Tooltip>
-        <Link target="_blank" href={repositoryData?.html_url}>{repositoryData?.name ?? "Loading repository..."}</Link>
-      </Stack>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Stack direction="row" spacing={1} sx={{alignItems: "center"}}>
+          <Tooltip title={'GitHub Repository'} arrow>
+            <RiGitRepositoryLine />
+          </Tooltip>
+          <Link target="_blank" href={repositoryData?.html_url}>{repositoryData?.name ?? "Loading repository..."}</Link>
+        </Stack>
+        {showStars && <Stack direction="row" spacing={1} sx={{alignItems: "center"}}>
+            <Tooltip title={'GitHub Starts'} arrow>
+              <GoStar />
+            </Tooltip>
+            <Typography>{repositoryData.stargazers_count}</Typography>
+        </Stack>
+        }
+      </Box>
       {repositoryRichData?.release ? <Stack direction="row" spacing={1} sx={{alignItems: "center"}}>
         <Tooltip title={'Latest release'} arrow>
           <GoTag />

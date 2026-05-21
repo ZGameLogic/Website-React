@@ -38,6 +38,7 @@ export type GithubRepositoryData = {
   name: string;
   private: boolean;
   releases_url: string;
+  stargazers_count: number;
 }
 
 export type GithubRepositoryRichData = {
