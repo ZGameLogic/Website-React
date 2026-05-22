@@ -2,7 +2,7 @@ import { useDashboardData } from "../global/dashboard data/useDashboardData.ts";
 import {RiGitRepositoryLine, RiCheckboxCircleLine} from "react-icons/ri";
 import { FaRegCircleQuestion } from "react-icons/fa6";
 import {Box, Divider, LinearProgress, Link, Stack, Tooltip, Typography} from "@mui/material";
-import { GoTag, GoStar } from "react-icons/go";
+import { GoTag, GoStar, GoMilestone } from "react-icons/go";
 
 type DashboardProjectGithubRepositoryProps = {
   id: number;
@@ -80,7 +80,12 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
           const progress = ((total - milestone.open_issues) / total) * 100;
 
           return <Stack key={milestone.id}>
-            <Typography>{milestone.title}</Typography>
+            <Stack direction={'row'} spacing={1} sx={{alignItems: 'center'}}>
+              <Tooltip title={'GitHub Milestone'} arrow>
+                <GoMilestone />
+              </Tooltip>
+              <Link target="_blank" href={milestone.html_url}>{milestone.title}</Link>
+            </Stack>
             <LinearProgress variant={'determinate'} value={progress}/>
           </Stack>
         })}
