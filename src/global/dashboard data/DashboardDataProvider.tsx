@@ -1,4 +1,4 @@
-import { type PropsWithChildren, useCallback, useEffect, useState } from "react";
+import {type PropsWithChildren, useCallback, useEffect, useState} from "react";
 import type {
   DashboardProject, DataOtterMonitorRichData,
   EmitterMessage, GithubProjectData,
@@ -24,31 +24,35 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
     fetch(`${import.meta.env.VITE_BACKEND_API_URL}/dashboard/projects`)
       .then(res => res.json())
       .then(data => {
-        setGithubRepositories([]);
-        setGithubRepoRichData([]);
-        setMonitorRichData([]);
-        setGithubProjects([]);
         setDashboardProjects(data);
         setIsInitialLoading(false);
       });
 
     const stream = new EventSource(`${import.meta.env.VITE_BACKEND_API_URL}/dashboard/projects/rich`);
 
+    const upsertById = <T extends { id: string | number }>(arr: T[], item: T): T[] => {
+      const idx = arr.findIndex(x => x.id === item.id);
+      if (idx === -1) return [...arr, item];
+      const next = [...arr];
+      next[idx] = item;
+      return next;
+    };
+
     stream.onmessage = (event) => {
       const parsed: EmitterMessage = JSON.parse(event.data);
 
       switch (parsed.type) {
         case "DATA":
-          setGithubRepositories(prev => [...prev, parsed.body]);
+          setGithubRepositories(prev => upsertById(prev, parsed.body));
           break;
         case "RICH_DATA":
-          setGithubRepoRichData(prev => [...prev, parsed.body]);
+          setGithubRepoRichData(prev => upsertById(prev, parsed.body));
           break;
         case "MONITOR_DATA":
-          setMonitorRichData(prev => [...prev, parsed.body]);
+          setMonitorRichData(prev => upsertById(prev, parsed.body));
           break;
         case "PROJECT_DATA":
-          setGithubProjects(prev => [...prev, parsed.body]);
+          setGithubProjects(prev => upsertById(prev, parsed.body));
           break;
         case "DONE":
           stream.close();
