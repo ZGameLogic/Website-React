@@ -1,7 +1,7 @@
 import { useDashboardData } from "../global/dashboard data/useDashboardData.ts";
 import {RiGitRepositoryLine, RiCheckboxCircleLine} from "react-icons/ri";
 import { FaRegCircleQuestion } from "react-icons/fa6";
-import {Box, Divider, Link, Stack, Tooltip, Typography} from "@mui/material";
+import {Box, Divider, LinearProgress, Link, Stack, Tooltip, Typography} from "@mui/material";
 import { GoTag, GoStar } from "react-icons/go";
 
 type DashboardProjectGithubRepositoryProps = {
@@ -13,6 +13,7 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
   const repositoryRichData = useDashboardData().getRepositoryRichData(id);
 
   const envs = repositoryRichData?.environments ?? [];
+  const milestones = repositoryRichData?.milestones ?? [];
 
   const showStars = repositoryData?.stargazers_count !== undefined && repositoryData.stargazers_count > 0;
 
@@ -67,6 +68,23 @@ function DashboardProjectGithubRepository({ id }: DashboardProjectGithubReposito
           </Stack>
         </>
       }
+      {milestones.length > 0 && <>
+          <Divider textAlign="left">
+              <Typography sx={{
+                color: 'text.secondary',
+                fontSize: '0.68rem'
+              }}>Milestones</Typography>
+          </Divider>
+        {milestones.map(milestone => {
+          const total = milestone.closed_issues + milestone.open_issues;
+          const progress = ((total - milestone.open_issues) / total) * 100;
+
+          return <Stack key={milestone.id}>
+            <Typography>{milestone.title}</Typography>
+            <LinearProgress variant={'determinate'} value={progress}/>
+          </Stack>
+        })}
+      </>}
     </Box>
   );
 }

@@ -41,6 +41,15 @@ export type GithubRepositoryData = {
   stargazers_count: number;
 }
 
+export type GithubRepositoryMilestone = {
+  html_url: string;
+  id: number;
+  number: number;
+  title: string;
+  open_issues: number;
+  closed_issues: number;
+}
+
 export type GithubRepositoryRichData = {
   id: number;
   environments: [{
@@ -52,4 +61,5 @@ export type GithubRepositoryRichData = {
     html_url: string;
     name: string;
   }
+  milestones: GithubRepositoryMilestone[];
 }
