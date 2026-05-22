@@ -14,11 +14,20 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
   const [githubRepoRichData, setGithubRepoRichData] = useState<GithubRepositoryRichData[]>([]);
   const [monitorRichData, setMonitorRichData] = useState<DataOtterMonitorRichData[]>([]);
   const [githubProjects, setGithubProjects] = useState<GithubProjectData[]>([]);
+  const [reloadKey, setReloadKey] = useState<number>(0);
+
+  const refreshDashboardData = useCallback(() => {
+    setReloadKey(prev => prev + 1);
+  }, []);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_API_URL}/dashboard/projects`)
       .then(res => res.json())
       .then(data => {
+        setGithubRepositories([]);
+        setGithubRepoRichData([]);
+        setMonitorRichData([]);
+        setGithubProjects([]);
         setDashboardProjects(data);
         setIsInitialLoading(false);
       });
@@ -52,7 +61,7 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
     return () => {
       stream.close();
     };
-  }, []);
+  }, [reloadKey]);
 
   const isLoadingRepositoryData = useCallback((repoId: number) => {
     return githubRepositories.filter(repo => repo.id === repoId).length !== 0 &&
@@ -89,7 +98,8 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
         getDashboardProject,
         getRepositoryRichData,
         getMonitorRichData,
-        getGithubProjectData
+        getGithubProjectData,
+        refreshDashboardData
       }}
     >
       {children}

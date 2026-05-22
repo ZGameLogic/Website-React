@@ -15,6 +15,7 @@ export type DashboardDataContextType = {
   getRepositoryRichData: (repoId: number) => GithubRepositoryRichData | undefined;
   getMonitorRichData: (repoId: number) => DataOtterMonitorRichData | undefined;
   getGithubProjectData: (projectId: number) => GithubProjectData | undefined;
+  refreshDashboardData: () => void;
 };
 
 export const DashboardDataContext = createContext<DashboardDataContextType>({
@@ -26,4 +27,5 @@ export const DashboardDataContext = createContext<DashboardDataContextType>({
   getRepositoryRichData: () => undefined,
   getMonitorRichData: () => undefined,
   getGithubProjectData: () => undefined,
+  refreshDashboardData: () => undefined
 });
