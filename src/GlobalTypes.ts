@@ -28,6 +28,16 @@ export type GithubProjectData = {
   description: string;
 };
 
+export type GitHubNameId = {
+  name: string;
+  id: number;
+};
+
+export type GitHubOptionId = {
+  name: string;
+  id: string;
+};
+
 export type GithubRepositoryData = {
   deployments_url: string;
   description: string;
