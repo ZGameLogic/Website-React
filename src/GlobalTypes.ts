@@ -2,6 +2,7 @@ export type DashboardProject = {
   id: string;
   name: string;
   description: string;
+  favorite: boolean | null;
   githubProjectLinks: number[];
   githubRepositoryLinks: number[];
   additionalAspects: string[];

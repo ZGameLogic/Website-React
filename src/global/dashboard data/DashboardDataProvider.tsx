@@ -23,8 +23,14 @@ export function DashboardDataProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_API_URL}/dashboard/projects`)
       .then(res => res.json())
-      .then(data => {
-        setDashboardProjects(data);
+      .then((data: DashboardProject[]) => {
+        const orderedData = [...data].sort((a, b) => {
+          if (a.favorite && !b.favorite) return -1;
+          if (!a.favorite && b.favorite) return 1;
+          return 0;
+        });
+        console.log(orderedData);
+        setDashboardProjects(orderedData);
         setIsInitialLoading(false);
       });
 
