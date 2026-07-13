@@ -7,7 +7,7 @@ import { SiSpring, SiGodotengine, SiLua, SiApachemaven } from "react-icons/si";
 import { GrHtml5 } from "react-icons/gr";
 import { SiKubernetes } from "react-icons/si";
 import { TbBrandTypescript } from "react-icons/tb";
-import { RiJavascriptLine } from "react-icons/ri";
+import { RiJavascriptLine, RiNextjsLine } from "react-icons/ri";
 import { LiaSwift } from "react-icons/lia";
 import DashboardProjectGithubProject from "./DashboardProjectGithubProject.tsx";
 import IconTooltip from "./IconTooltip.tsx";
@@ -130,6 +130,7 @@ function DashboardProject({projectId}: DashboardProjectProps) {
           case "Mysql": return <IconTooltip key={12} tooltip={'MySQL'} icon={<GrMysql size={LANGUAGE_SIZE} />} />;
           case "Postgres": return <IconTooltip key={13} tooltip={'Postgres'} icon={<SiPostgresql size={LANGUAGE_SIZE} />} />;
           case "H2": return <IconTooltip key={14} tooltip={'H2'} icon={<HiH2 size={LANGUAGE_SIZE} />} />;
+          case "NextJs": return <IconTooltip key={14} tooltip={'NextJS'} icon={<RiNextjsLine size={LANGUAGE_SIZE} />} />;
           default: return <></>;
         }
       })}
