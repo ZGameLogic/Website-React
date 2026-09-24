@@ -1,0 +1,61 @@
+// use prisma-8
+// Contract inferred from the live database schema. Edit as needed, then run `prisma contract emit`.
+
+model DashboardProjects {
+  id                        Uuid                       @id(map: "dashboard_projects_pkey")
+  description               VarChar(255)?
+  name                      VarChar(255)?
+  favorite                  Boolean?
+  additionalProjectAspects  AdditionalProjectAspects[]
+  dataotterApplicationLinks DataotterApplicationLink[]
+  githubProjectLinks        GithubProjectLinks[]
+  githubRepositoryLinks     GithubRepositoryLinks[]
+  mavenProjectLinks         MavenProjectLink[]
+
+  @@map("dashboard_projects")
+}
+
+// WARNING: This table has no primary key in the database
+model AdditionalProjectAspects {
+  projectId Uuid              @map("project_id")
+  aspect    VarChar(255)?
+  project   DashboardProjects @relation(fields: [projectId], references: [id], map: "fk60wy1ni71ddy0tl4sllg47ljh", index: false)
+
+  @@map("additional_project_aspects")
+}
+
+// WARNING: This table has no primary key in the database
+model DataotterApplicationLink {
+  projectId     Uuid              @map("project_id")
+  applicationId BigInt?           @map("application_id")
+  project       DashboardProjects @relation(fields: [projectId], references: [id], map: "fkmk4turc23fe3pvrk0vmc9ligi", index: false)
+
+  @@map("dataotter_application_link")
+}
+
+// WARNING: This table has no primary key in the database
+model GithubProjectLinks {
+  projectId       Uuid              @map("project_id")
+  githubProjectId BigInt?           @map("github_project_id")
+  project         DashboardProjects @relation(fields: [projectId], references: [id], map: "fk29na5lvj3s2nf61jdtf2a8sxs", index: false)
+
+  @@map("github_project_links")
+}
+
+// WARNING: This table has no primary key in the database
+model GithubRepositoryLinks {
+  projectId          Uuid              @map("project_id")
+  githubRepositoryId BigInt?           @map("github_repository_id")
+  project            DashboardProjects @relation(fields: [projectId], references: [id], map: "fkn45dxtnp0paps1mofyflpu7ej", index: false)
+
+  @@map("github_repository_links")
+}
+
+// WARNING: This table has no primary key in the database
+model MavenProjectLink {
+  projectId Uuid              @map("project_id")
+  mavenUrl  VarChar(255)?     @map("maven_url")
+  project   DashboardProjects @relation(fields: [projectId], references: [id], map: "fkl1d5x2v3gmw43vpw1tepn2sjy", index: false)
+
+  @@map("maven_project_link")
+}

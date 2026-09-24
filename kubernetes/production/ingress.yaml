@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: website
+  labels:
+    route53: website
+spec:
+  rules:
+    - host: "zgamelogic.com"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: website
+                port:
+                  number: 3000
+  tls:
+    - hosts:
+        - "zgamelogic.com"
+      secretName: ingress-tls
