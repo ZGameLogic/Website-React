@@ -1,5 +1,7 @@
 'use server';
 
+import { cacheLife } from 'next/cache'
+
 type GithubDeployment = {
   id: bigint
   environment: string
@@ -66,6 +68,9 @@ type GithubRepository = {
 }
 
 export async function getRepositories(): Promise<Response> {
+  'use cache';
+  cacheLife('days');
+
   const query = new URLSearchParams({
     'per_page': '100'
   }).toString();

@@ -3,8 +3,6 @@ import {findAllDashboardProjects} from '@/src/services/database.service.ts';
 import {Masonry} from '@mui/lab';
 import {Box} from '@mui/material';
 
-export const dynamic = 'force-dynamic';
-
 export default async function Home() {
   const projects = await findAllDashboardProjects();
 
