@@ -2,14 +2,16 @@
 
 import {ReactNode} from 'react';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import {CssBaseline} from '@mui/material';
+import {CssBaseline, useMediaQuery} from '@mui/material';
 
 export default function ThemeWrapperComponent({ children }: { children: ReactNode }) {
+  const prefersLightMode = useMediaQuery('(prefers-color-scheme: light)');
+
   const theme = createTheme({
     palette: {
-      mode: 'dark',
+      mode: prefersLightMode ? 'light' : 'dark',
       primary: {
-        main: '#9b3fba'
+        main: '#9b3fba',
       }
     },
   });
