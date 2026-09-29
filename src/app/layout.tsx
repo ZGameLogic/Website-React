@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import ThemeWrapper from '@/src/app/ThemeWrapper';
-import Navigation from '@/src/app/Navigation';
+import ThemeWrapperComponent from '@/src/app/theme-wrapper.component.tsx';
+import NavigationComponent from '@/src/app/navigation.component.tsx';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 
 export const metadata: Metadata = {
@@ -12,10 +12,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return <html>
     <body>
       <AppRouterCacheProvider>
-        <ThemeWrapper>
-          <Navigation />
+        <ThemeWrapperComponent>
+          <NavigationComponent />
           {children}
-        </ThemeWrapper>
+        </ThemeWrapperComponent>
       </AppRouterCacheProvider>
     </body>
   </html>;
