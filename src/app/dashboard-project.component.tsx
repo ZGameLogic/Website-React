@@ -1,24 +1,7 @@
-import {Models} from "@/src/prisma/contract";
-import public_DashboardProjects = Models.public_DashboardProjects;
 import {Card, Typography} from "@mui/material";
+import {findAllDashboardProjects} from "@/src/services/database.service.ts";
 
-type DashboardProjectData = Omit<
-  Models.public_DashboardProjects,
-  | "additionalProjectAspects"
-  | "dataotterApplicationLinks"
-  | "githubProjectLinks"
-  | "githubRepositoryLinks"
-  | "mavenProjectLinks"
-> & {
-  additionalProjectAspects: Omit<Models.public_AdditionalProjectAspects, "project">[];
-  dataotterApplicationLinks: Omit<Models.public_DataotterApplicationLink, "project">[];
-  githubProjectLinks: Omit<Models.public_GithubProjectLinks, "project">[];
-  githubRepositoryLinks: Omit<Models.public_GithubRepositoryLinks, "project">[];
-  mavenProjectLinks: Omit<Models.public_MavenProjectLink, "project">[];
-};
-
-
-export function DashboardProject({project}: {project: DashboardProjectData}){
+export function DashboardProject({project}: {project: Awaited<ReturnType<typeof findAllDashboardProjects>>[number]}){
 
   return <Card>
     <Typography>{project.name}</Typography>
