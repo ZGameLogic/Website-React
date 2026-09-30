@@ -8,7 +8,7 @@ type DashboardProjectProjectProps = {
 
 export async function DashboardProjectProject({ id }: DashboardProjectProjectProps){
   const projectData = await getProject(id);
-  const projectLink = `https://github.com/orgs/ZGameLogic/projects/${projectData}`;
+  const projectLink = `https://github.com/orgs/ZGameLogic/projects/${projectData.number}`;
 
   return (
     <Box

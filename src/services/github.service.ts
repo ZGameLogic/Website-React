@@ -51,7 +51,7 @@ type GithubProject = {
   owner: GithubUser
 }
 
-type GithubRepository = {
+export type GithubRepository = {
   name: string
   full_name: string
   private: boolean
@@ -98,8 +98,6 @@ export async function getRepositories(): Promise<GithubRepository[]> {
 export async function getProject(projectId: bigint): Promise<GithubProject> {
   'use cache';
   cacheLife('days');
-
-  console.log(`https://api.github.com/orgs/ZGameLogic/projectsV2/${projectId.toString()}`);
 
   const response = await fetch(`https://api.github.com/orgs/ZGameLogic/projectsV2/${projectId.toString()}`, {
     method: 'GET',

@@ -2,9 +2,16 @@ import {Box, Card, CardContent, Divider, Typography} from '@mui/material';
 import {findAllDashboardProjects} from '@/src/services/database.service.ts';
 import {Suspense} from 'react';
 import {DashboardProjectProject} from '@/src/app/dashboard-project-project.component.tsx';
+import {GithubRepository} from '@/src/services/github.service.ts';
+import {DashboardProjectRepository} from '@/src/app/dashboard-project-repository.component.tsx';
 
-export function DashboardProject({project}: {project: Awaited<ReturnType<typeof findAllDashboardProjects>>[number]}){
-  // const projects =
+type DashboardProjectProps = {
+  project: Awaited<ReturnType<typeof findAllDashboardProjects>>[number];
+  githubRepositories: GithubRepository[];
+}
+
+export function DashboardProject({project, githubRepositories}: DashboardProjectProps){
+
   return <Card>
     <CardContent>
       <Typography variant={'h5'}>{project.name}</Typography>
@@ -31,15 +38,22 @@ export function DashboardProject({project}: {project: Awaited<ReturnType<typeof 
         </Box>
       </>
       }
-      { project.githubRepositoryLinks.length > 0 && <Divider textAlign={'left'}>
+      { project.githubRepositoryLinks.length > 0 && <>
+      <Divider textAlign={'left'}>
           <Typography sx={{
             color: 'text.secondary',
             fontSize: '0.68rem'
           }}>Github Repositories</Typography>
-          {/*<Suspense fallback={<Typography>Ben</Typography>}>*/}
-          {/*  <DashboardProjectRepository />*/}
-          {/*</Suspense>*/}
-      </Divider> }
+      </Divider>
+      <Box sx={{marginY: 1}}>
+        {githubRepositories.map(repo => {
+          return <Suspense key={repo.id} fallback={<Typography>Loading Repo</Typography>}>
+            <DashboardProjectRepository githubRepository={repo}/>
+          </Suspense>
+        })}
+      </Box>
+      </>
+      }
       <Divider textAlign={'left'}>
         <Typography sx={{
           color: 'text.secondary',
