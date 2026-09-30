@@ -2,7 +2,7 @@ import {Box, Card, CardContent, CircularProgress, Divider, Stack, Tooltip, Typog
 import {findAllDashboardProjects} from '@/src/services/database.service.ts';
 import {Suspense} from 'react';
 import {DashboardProjectProject} from '@/src/app/dashboard-project-project.component.tsx';
-import {GithubRepository} from '@/src/services/github.service.ts';
+import {getRepositoryLanguages, GithubRepository} from '@/src/services/github.service.ts';
 import {DashboardProjectRepository} from '@/src/app/dashboard-project-repository.component.tsx';
 import {RiGitRepositoryLine} from 'react-icons/ri';
 
@@ -11,7 +11,14 @@ type DashboardProjectProps = {
   githubRepositories: GithubRepository[];
 }
 
-export function DashboardProject({project, githubRepositories}: DashboardProjectProps){
+export async function DashboardProject({project, githubRepositories}: DashboardProjectProps){
+
+  const languageArrays = await Promise.all(
+    githubRepositories.map(repo => getRepositoryLanguages(repo))
+  );
+  const languages = [...new Set(languageArrays.flat()), ...project.additionalProjectAspects.map(apa => apa.aspect)];
+
+  console.log(languages);
 
   return <Card>
     <CardContent>

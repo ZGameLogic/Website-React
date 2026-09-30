@@ -116,8 +116,22 @@ export async function getProject(projectId: bigint): Promise<GithubProject> {
   return data as GithubProject;
 }
 
-function getRepositoryLanguages(gitRepo: GithubRepository): Record<string, number>{
-  return {};
+export async function getRepositoryLanguages(gitRepo: GithubRepository): Promise<string[]> {
+  try {
+    const response = await fetch(gitRepo.languages_url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        'X-Github-Api-Version': '2026-03-10'
+      }
+    });
+    if(!response.ok) return [];
+
+    const data = await response.json();
+    return Object.keys(data)
+  } catch {
+    return [];
+  }
 }
 
 export async function getRepositoryDeployments(gitRepo: GithubRepository, env: GithubEnvironment): Promise<GithubDeployment[]> {
