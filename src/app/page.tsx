@@ -17,7 +17,11 @@ export default async function Home() {
     columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}
     spacing={2}
   >
-    {projects.map(proj => <DashboardProject project={proj} key={proj.id} />)}
+    {projects.sort((a, b) => {
+      if (a.favorite && !b.favorite) return -1;
+      if (!a.favorite && b.favorite) return 1;
+      return 0;
+    }).map(proj => <DashboardProject project={proj} key={proj.id} />)}
     </Masonry>
   </Box>;
 }

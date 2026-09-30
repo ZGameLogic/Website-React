@@ -13,7 +13,28 @@ export function DashboardProject({project}: {project: Awaited<ReturnType<typeof 
             fontSize: '0.68rem'
           }}>Data Otter Monitors</Typography>
         {/* TODO get data otter monitor status */}
-      </Divider>}
+      </Divider> }
+      { project.githubProjectLinks.length > 0 && <Divider textAlign={'left'}>
+          <Typography sx={{
+            color: 'text.secondary',
+            fontSize: '0.68rem'
+          }}>Github Projects</Typography>
+        {/* TODO get github project */}
+      </Divider> }
+      { project.githubRepositoryLinks.length > 0 && <Divider textAlign={'left'}>
+          <Typography sx={{
+            color: 'text.secondary',
+            fontSize: '0.68rem'
+          }}>Github Repositories</Typography>
+        {/* TODO get github repositories */}
+      </Divider> }
+      { project.githubProjectLinks.length > 0 && <Divider textAlign={'left'}>
+          <Typography sx={{
+            color: 'text.secondary',
+            fontSize: '0.68rem'
+          }}>Project Languages/Frameworks</Typography>
+        {/* TODO get github languages */}
+      </Divider> }
     </CardContent>
   </Card>
 }
