@@ -34,8 +34,8 @@ type GithubMilestone = {
   html_url: string
   number: bigint
   title: string
-  open_issues: bigint
-  closed_issues: bigint
+  open_issues: number
+  closed_issues: number
 }
 
 type GithubUser = {
@@ -221,6 +221,26 @@ export async function getRepositoryReleases(gitRepo: GithubRepository): Promise<
   }
 }
 
-function getRepositoryMilestones(gitRepo: GithubRepository): GithubMilestone[] {
-  return [];
+export async function getRepositoryMilestones(gitRepo: GithubRepository): Promise<GithubMilestone[]> {
+  'use cache';
+  cacheLife('days');
+
+  try {
+    const response = await fetch(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/milestones`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
+        'X-Github-Api-Version': '2026-03-10'
+      }
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? (data as GithubMilestone[]) : [];
+  } catch {
+    return [];
+  }
 }

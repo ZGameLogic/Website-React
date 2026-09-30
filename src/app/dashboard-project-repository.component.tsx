@@ -1,7 +1,12 @@
-import {Box, Stack, Tooltip, Link, Typography, Divider} from '@mui/material';
-import {getRepositoryEnvironments, getRepositoryReleases, GithubRepository} from '@/src/services/github.service.ts';
+import {Box, Stack, Tooltip, Link, Typography, Divider, LinearProgress} from '@mui/material';
+import {
+  getRepositoryEnvironments,
+  getRepositoryMilestones,
+  getRepositoryReleases,
+  GithubRepository
+} from '@/src/services/github.service.ts';
 import {RiGitRepositoryLine} from 'react-icons/ri';
-import {GoStar, GoTag} from 'react-icons/go';
+import {GoIssueOpened, GoMilestone, GoStar, GoTag} from 'react-icons/go';
 import {Suspense} from 'react';
 import {DashboardProjectRepositoryDeployments} from '@/src/app/dashboard-project-repository-deployments.component.tsx';
 
@@ -12,6 +17,7 @@ type DashboardProjectRepositoryProps = {
 export async function DashboardProjectRepository({githubRepository}: DashboardProjectRepositoryProps){
   const releases = await getRepositoryReleases(githubRepository);
   const environments = await getRepositoryEnvironments(githubRepository);
+  const milestones = await getRepositoryMilestones(githubRepository);
 
   return <Box
     sx={{
@@ -54,7 +60,36 @@ export async function DashboardProjectRepository({githubRepository}: DashboardPr
             <DashboardProjectRepositoryDeployments envs={environments} gitRepo={githubRepository} />
           </Suspense>
         </Stack>
-      </>
-    }
+    </>}
+    {milestones.length > 0 && <>
+      <Divider textAlign="left">
+        <Typography sx={{
+          color: 'text.secondary',
+          fontSize: '0.68rem'
+        }}>Milestones</Typography>
+      </Divider>
+      {milestones.map(milestone => {
+        const total = milestone.closed_issues + milestone.open_issues;
+        const progress = ((total - milestone.open_issues) / total) * 100;
+
+        return <Stack key={milestone.id}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Stack direction={'row'} spacing={1} sx={{alignItems: 'center'}}>
+              <Tooltip title={'GitHub Milestone'} arrow>
+                <GoMilestone />
+              </Tooltip>
+              <Link target="_blank" href={milestone.html_url}>{milestone.title}</Link>
+            </Stack>
+            <Stack direction={'row'} spacing={1} sx={{alignItems: 'center'}}>
+              <Tooltip title={'Issues'} arrow>
+                <GoIssueOpened />
+              </Tooltip>
+              <Typography>{`${milestone.closed_issues}/${total}`}</Typography>
+            </Stack>
+          </Box>
+          <LinearProgress variant={'determinate'} value={Number(progress)}/>
+        </Stack>
+      })}
+    </>}
   </Box>
 }
