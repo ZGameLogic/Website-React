@@ -28,13 +28,13 @@ export function DashboardProject({project}: {project: Awaited<ReturnType<typeof 
           }}>Github Repositories</Typography>
         {/* TODO get github repositories */}
       </Divider> }
-      { project.githubProjectLinks.length > 0 && <Divider textAlign={'left'}>
-          <Typography sx={{
-            color: 'text.secondary',
-            fontSize: '0.68rem'
-          }}>Project Languages/Frameworks</Typography>
+      <Divider textAlign={'left'}>
+        <Typography sx={{
+          color: 'text.secondary',
+          fontSize: '0.68rem'
+        }}>Project Languages/Frameworks</Typography>
         {/* TODO get github languages */}
-      </Divider> }
+      </Divider>
     </CardContent>
   </Card>
 }
