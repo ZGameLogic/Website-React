@@ -1,8 +1,10 @@
-import {Card, CardContent, Divider, Typography} from '@mui/material';
+import {Box, Card, CardContent, Divider, Typography} from '@mui/material';
 import {findAllDashboardProjects} from '@/src/services/database.service.ts';
+import {Suspense} from 'react';
+import {DashboardProjectProject} from '@/src/app/dashboard-project-project.component.tsx';
 
 export function DashboardProject({project}: {project: Awaited<ReturnType<typeof findAllDashboardProjects>>[number]}){
-
+  // const projects =
   return <Card>
     <CardContent>
       <Typography variant={'h5'}>{project.name}</Typography>
@@ -14,19 +16,29 @@ export function DashboardProject({project}: {project: Awaited<ReturnType<typeof 
           }}>Data Otter Monitors</Typography>
         {/* TODO get data otter monitor status */}
       </Divider> }
-      { project.githubProjectLinks.length > 0 && <Divider textAlign={'left'}>
+      { project.githubProjectLinks.length > 0 && <>
+      <Divider textAlign={'left'}>
           <Typography sx={{
             color: 'text.secondary',
             fontSize: '0.68rem'
           }}>Github Projects</Typography>
-        {/* TODO get github project */}
-      </Divider> }
+        </Divider>
+        <Box sx={{marginY: 1}}>
+          {project.githubProjectLinks.map(link => <Suspense fallback={<Typography>Loading</Typography>} key={link.githubProjectId}>
+              <DashboardProjectProject id={link.githubProjectId ?? BigInt(0)} />
+            </Suspense>
+          )}
+        </Box>
+      </>
+      }
       { project.githubRepositoryLinks.length > 0 && <Divider textAlign={'left'}>
           <Typography sx={{
             color: 'text.secondary',
             fontSize: '0.68rem'
           }}>Github Repositories</Typography>
-        {/* TODO get github repositories */}
+          {/*<Suspense fallback={<Typography>Ben</Typography>}>*/}
+          {/*  <DashboardProjectRepository />*/}
+          {/*</Suspense>*/}
       </Divider> }
       <Divider textAlign={'left'}>
         <Typography sx={{

@@ -67,25 +67,50 @@ type GithubRepository = {
   owner: GithubUser
 }
 
-export async function getRepositories(): Promise<Response> {
+export async function getRepositories(): Promise<GithubRepository[]> {
   'use cache';
   cacheLife('days');
 
-  const query = new URLSearchParams({
-    'per_page': '100'
-  }).toString();
+  try {
+    const query = new URLSearchParams({
+      'per_page': '100'
+    }).toString();
 
-  return fetch(`https://api.github.com/orgs/zgamelogic/repos?${query}`, {
+    const response = await fetch(`https://api.github.com/orgs/zgamelogic/repos?${query}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
+        'X-Github-Api-Version': '2026-03-10'
+      }
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? (data as GithubRepository[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function getProject(projectId: bigint): Promise<GithubProject> {
+  'use cache';
+  cacheLife('days');
+
+  console.log(`https://api.github.com/orgs/ZGameLogic/projectsV2/${projectId.toString()}`);
+
+  const response = await fetch(`https://api.github.com/orgs/ZGameLogic/projectsV2/${projectId.toString()}`, {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
       'X-Github-Api-Version': '2026-03-10'
     }
   });
-}
 
-function getProjects(): GithubProject[] {
-  return [];
+  const data = await response.json();
+  return data as GithubProject;
 }
 
 function getRepositoryLanguages(gitRepo: GithubRepository): Record<string, number>{
