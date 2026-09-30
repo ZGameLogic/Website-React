@@ -1,9 +1,10 @@
-import {Box, Card, CardContent, Divider, Typography} from '@mui/material';
+import {Box, Card, CardContent, CircularProgress, Divider, Stack, Tooltip, Typography} from '@mui/material';
 import {findAllDashboardProjects} from '@/src/services/database.service.ts';
 import {Suspense} from 'react';
 import {DashboardProjectProject} from '@/src/app/dashboard-project-project.component.tsx';
 import {GithubRepository} from '@/src/services/github.service.ts';
 import {DashboardProjectRepository} from '@/src/app/dashboard-project-repository.component.tsx';
+import {RiGitRepositoryLine} from 'react-icons/ri';
 
 type DashboardProjectProps = {
   project: Awaited<ReturnType<typeof findAllDashboardProjects>>[number];
@@ -47,7 +48,27 @@ export function DashboardProject({project, githubRepositories}: DashboardProject
       </Divider>
       <Box sx={{marginY: 1}}>
         {githubRepositories.map(repo => {
-          return <Suspense key={repo.id} fallback={<Typography>Loading Repo</Typography>}>
+          return <Suspense key={repo.id} fallback={<>
+            <Box
+              sx={{
+                p: 1.25,
+                borderRadius: 1.5,
+                border: '1px solid',
+                borderColor: 'divider',
+                bgcolor: 'background.paper',
+              }}
+            >
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Stack direction="row" spacing={1} sx={{alignItems: 'center'}}>
+                  <Tooltip title={'GitHub Repository'} arrow>
+                    <RiGitRepositoryLine />
+                  </Tooltip>
+                  <CircularProgress size={20} />
+                  <Typography>Loading Repository...</Typography>
+                </Stack>
+              </Box>
+            </Box>
+          </>}>
             <DashboardProjectRepository githubRepository={repo}/>
           </Suspense>
         })}
