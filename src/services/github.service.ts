@@ -18,10 +18,15 @@ type GithubDeploymentStatus = {
   state: string
 }
 
-type GithubEnvironment = {
+export type GithubEnvironment = {
   id: bigint
   name: string
   html_url: string
+}
+
+type GithubEnvironmentsResponse = {
+  total_count: number
+  environments: GithubEnvironment[]
 }
 
 type GithubMilestone = {
@@ -62,7 +67,7 @@ export type GithubRepository = {
   milestones_url: string
   description: string
   id: bigint
-  start: bigint
+  stargazers_count: bigint
   watchers: bigint
   owner: GithubUser
 }
@@ -115,20 +120,105 @@ function getRepositoryLanguages(gitRepo: GithubRepository): Record<string, numbe
   return {};
 }
 
-function getRepositoryDeployments(gitRepo: GithubRepository, env: GithubEnvironment): GithubDeployment[] {
-  return [];
+export async function getRepositoryDeployments(gitRepo: GithubRepository, env: GithubEnvironment): Promise<GithubDeployment[]> {
+  'use cache';
+  cacheLife('days');
+
+  try {
+    const query = new URLSearchParams({
+      'environment': env.name
+    }).toString();
+
+    const response = await fetch(`${gitRepo.deployments_url}?${query.toString()}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
+        'X-Github-Api-Version': '2026-03-10'
+      }
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? (data as GithubDeployment[]) : [];
+  } catch {
+    return [];
+  }
 }
 
-function getDeploymentStatus(deployment: GithubDeployment): GithubDeploymentStatus[] {
-  return [];
+export async function getDeploymentStatus(deployment: GithubDeployment): Promise<GithubDeploymentStatus[]> {
+  'use cache';
+  cacheLife('days');
+
+  try {
+    const response = await fetch(`${deployment.statuses_url}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
+        'X-Github-Api-Version': '2026-03-10'
+      }
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? (data as GithubDeploymentStatus[]) : [];
+  } catch {
+    return [];
+  }
 }
 
-function getRepositoryEnvironments(gitRepo: GithubRepository): GithubEnvironment[] {
-  return [];
+export async function getRepositoryEnvironments(gitRepo: GithubRepository): Promise<GithubEnvironment[]> {
+  'use cache';
+  cacheLife('days');
+
+  try {
+    const response = await fetch(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/environments`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
+        'X-Github-Api-Version': '2026-03-10'
+      }
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const data = await response.json() as GithubEnvironmentsResponse;
+
+    return data.environments;
+  } catch {
+    return [];
+  }
 }
 
-function getRepositoryReleases(gitRepo: GithubRepository): GithubRelease[] {
-  return [];
+export async function getRepositoryReleases(gitRepo: GithubRepository): Promise<GithubRelease[]> {
+  'use cache';
+  cacheLife('days');
+
+  try {
+    const response = await fetch(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/releases`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
+        'X-Github-Api-Version': '2026-03-10'
+      }
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    const data = await response.json();
+    return Array.isArray(data) ? (data as GithubRelease[]) : [];
+  } catch {
+    return [];
+  }
 }
 
 function getRepositoryMilestones(gitRepo: GithubRepository): GithubMilestone[] {
