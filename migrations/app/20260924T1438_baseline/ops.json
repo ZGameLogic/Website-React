@@ -1,0 +1,463 @@
+[
+  {
+    "id": "schema.public",
+    "label": "Create schema \"public\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres"
+    },
+    "precheck": [],
+    "execute": [
+      {
+        "description": "Create schema \"public\"",
+        "sql": "CREATE SCHEMA IF NOT EXISTS \"public\"",
+        "params": []
+      }
+    ],
+    "postcheck": []
+  },
+  {
+    "id": "table.additional_project_aspects",
+    "label": "Create table \"additional_project_aspects\"",
+    "summary": "Creates table \"additional_project_aspects\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "additional_project_aspects"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"additional_project_aspects\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"additional_project_aspects\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"additional_project_aspects\"",
+        "sql": "CREATE TABLE \"public\".\"additional_project_aspects\" (\n  \"aspect\" character varying(255),\n  \"project_id\" uuid NOT NULL\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"additional_project_aspects\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"additional_project_aspects\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.dashboard_projects",
+    "label": "Create table \"dashboard_projects\"",
+    "summary": "Creates table \"dashboard_projects\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "dashboard_projects"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"dashboard_projects\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"dashboard_projects\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"dashboard_projects\"",
+        "sql": "CREATE TABLE \"public\".\"dashboard_projects\" (\n  \"description\" character varying(255),\n  \"favorite\" bool,\n  \"id\" uuid NOT NULL,\n  \"name\" character varying(255),\n  CONSTRAINT \"dashboard_projects_pkey\" PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"dashboard_projects\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"dashboard_projects\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.dataotter_application_link",
+    "label": "Create table \"dataotter_application_link\"",
+    "summary": "Creates table \"dataotter_application_link\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "dataotter_application_link"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"dataotter_application_link\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"dataotter_application_link\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"dataotter_application_link\"",
+        "sql": "CREATE TABLE \"public\".\"dataotter_application_link\" (\n  \"application_id\" int8,\n  \"project_id\" uuid NOT NULL\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"dataotter_application_link\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"dataotter_application_link\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.github_project_links",
+    "label": "Create table \"github_project_links\"",
+    "summary": "Creates table \"github_project_links\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "github_project_links"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"github_project_links\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"github_project_links\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"github_project_links\"",
+        "sql": "CREATE TABLE \"public\".\"github_project_links\" (\n  \"github_project_id\" int8,\n  \"project_id\" uuid NOT NULL\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"github_project_links\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"github_project_links\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.github_repository_links",
+    "label": "Create table \"github_repository_links\"",
+    "summary": "Creates table \"github_repository_links\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "github_repository_links"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"github_repository_links\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"github_repository_links\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"github_repository_links\"",
+        "sql": "CREATE TABLE \"public\".\"github_repository_links\" (\n  \"github_repository_id\" int8,\n  \"project_id\" uuid NOT NULL\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"github_repository_links\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"github_repository_links\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.maven_project_link",
+    "label": "Create table \"maven_project_link\"",
+    "summary": "Creates table \"maven_project_link\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "maven_project_link"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"maven_project_link\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"maven_project_link\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"maven_project_link\"",
+        "sql": "CREATE TABLE \"public\".\"maven_project_link\" (\n  \"maven_url\" character varying(255),\n  \"project_id\" uuid NOT NULL\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"maven_project_link\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"maven_project_link\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.additional_project_aspects.fk60wy1ni71ddy0tl4sllg47ljh",
+    "label": "Add foreign key \"fk60wy1ni71ddy0tl4sllg47ljh\" on \"additional_project_aspects\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "fk60wy1ni71ddy0tl4sllg47ljh",
+        "table": "additional_project_aspects"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"fk60wy1ni71ddy0tl4sllg47ljh\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "fk60wy1ni71ddy0tl4sllg47ljh",
+          "public",
+          "\"public\".\"additional_project_aspects\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"fk60wy1ni71ddy0tl4sllg47ljh\"",
+        "sql": "ALTER TABLE \"public\".\"additional_project_aspects\"\nADD CONSTRAINT \"fk60wy1ni71ddy0tl4sllg47ljh\"\nFOREIGN KEY (\"project_id\")\nREFERENCES \"public\".\"dashboard_projects\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"fk60wy1ni71ddy0tl4sllg47ljh\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "fk60wy1ni71ddy0tl4sllg47ljh",
+          "public",
+          "\"public\".\"additional_project_aspects\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.dataotter_application_link.fkmk4turc23fe3pvrk0vmc9ligi",
+    "label": "Add foreign key \"fkmk4turc23fe3pvrk0vmc9ligi\" on \"dataotter_application_link\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "fkmk4turc23fe3pvrk0vmc9ligi",
+        "table": "dataotter_application_link"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"fkmk4turc23fe3pvrk0vmc9ligi\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "fkmk4turc23fe3pvrk0vmc9ligi",
+          "public",
+          "\"public\".\"dataotter_application_link\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"fkmk4turc23fe3pvrk0vmc9ligi\"",
+        "sql": "ALTER TABLE \"public\".\"dataotter_application_link\"\nADD CONSTRAINT \"fkmk4turc23fe3pvrk0vmc9ligi\"\nFOREIGN KEY (\"project_id\")\nREFERENCES \"public\".\"dashboard_projects\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"fkmk4turc23fe3pvrk0vmc9ligi\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "fkmk4turc23fe3pvrk0vmc9ligi",
+          "public",
+          "\"public\".\"dataotter_application_link\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.github_project_links.fk29na5lvj3s2nf61jdtf2a8sxs",
+    "label": "Add foreign key \"fk29na5lvj3s2nf61jdtf2a8sxs\" on \"github_project_links\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "fk29na5lvj3s2nf61jdtf2a8sxs",
+        "table": "github_project_links"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"fk29na5lvj3s2nf61jdtf2a8sxs\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "fk29na5lvj3s2nf61jdtf2a8sxs",
+          "public",
+          "\"public\".\"github_project_links\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"fk29na5lvj3s2nf61jdtf2a8sxs\"",
+        "sql": "ALTER TABLE \"public\".\"github_project_links\"\nADD CONSTRAINT \"fk29na5lvj3s2nf61jdtf2a8sxs\"\nFOREIGN KEY (\"project_id\")\nREFERENCES \"public\".\"dashboard_projects\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"fk29na5lvj3s2nf61jdtf2a8sxs\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "fk29na5lvj3s2nf61jdtf2a8sxs",
+          "public",
+          "\"public\".\"github_project_links\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.github_repository_links.fkn45dxtnp0paps1mofyflpu7ej",
+    "label": "Add foreign key \"fkn45dxtnp0paps1mofyflpu7ej\" on \"github_repository_links\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "fkn45dxtnp0paps1mofyflpu7ej",
+        "table": "github_repository_links"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"fkn45dxtnp0paps1mofyflpu7ej\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "fkn45dxtnp0paps1mofyflpu7ej",
+          "public",
+          "\"public\".\"github_repository_links\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"fkn45dxtnp0paps1mofyflpu7ej\"",
+        "sql": "ALTER TABLE \"public\".\"github_repository_links\"\nADD CONSTRAINT \"fkn45dxtnp0paps1mofyflpu7ej\"\nFOREIGN KEY (\"project_id\")\nREFERENCES \"public\".\"dashboard_projects\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"fkn45dxtnp0paps1mofyflpu7ej\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "fkn45dxtnp0paps1mofyflpu7ej",
+          "public",
+          "\"public\".\"github_repository_links\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.maven_project_link.fkl1d5x2v3gmw43vpw1tepn2sjy",
+    "label": "Add foreign key \"fkl1d5x2v3gmw43vpw1tepn2sjy\" on \"maven_project_link\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "fkl1d5x2v3gmw43vpw1tepn2sjy",
+        "table": "maven_project_link"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"fkl1d5x2v3gmw43vpw1tepn2sjy\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "fkl1d5x2v3gmw43vpw1tepn2sjy",
+          "public",
+          "\"public\".\"maven_project_link\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"fkl1d5x2v3gmw43vpw1tepn2sjy\"",
+        "sql": "ALTER TABLE \"public\".\"maven_project_link\"\nADD CONSTRAINT \"fkl1d5x2v3gmw43vpw1tepn2sjy\"\nFOREIGN KEY (\"project_id\")\nREFERENCES \"public\".\"dashboard_projects\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"fkl1d5x2v3gmw43vpw1tepn2sjy\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "fkl1d5x2v3gmw43vpw1tepn2sjy",
+          "public",
+          "\"public\".\"maven_project_link\""
+        ]
+      }
+    ]
+  }
+]

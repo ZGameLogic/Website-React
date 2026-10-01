@@ -4,26 +4,48 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "build": "next build",
+    "build:production": "next build",
+    "start": "npm run cloudconfig:prod exec next start",
+    "dev": "npm run cloudconfig exec next dev",
+    "cloudconfig": "node --env-file=.env.local ./application-config.mjs",
+    "cloudconfig:prod": "node --env-file=.env.production ./application-config.mjs",
+    "contract:emit": "prisma contract emit",
+    "migration:plan": "prisma migration plan",
+    "migration:show": "npm run cloudconfig -- exec prisma migration show ./migrations/app/20260923T1905_migration",
+    "migration:dev": "npm run cloudconfig -- exec -- prisma db migrate --advance-ref db",
+    "migration:prod": "npm run cloudconfig:prod -- exec prisma db migrate",
+    "contract:infer": "npm run cloudconfig exec prisma contract infer",
+    "contract:emit2": "npm run contract:emit",
+    "sign": "npm run cloudconfig -- exec -- prisma db sign",
+    "baseline": "npm run migration:plan -- --name baseline",
+    "baseline:prod": "npm run cloudconfig:prod -- exec -- prisma db sign 20260924T1438_baseline --no-advance-ref"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/lab": "^9.0.0-beta.8",
     "@mui/material": "^9.3.1",
+    "@mui/material-nextjs": "^9.4.0",
+    "@prisma/composer": "0.20.0",
+    "@prisma/composer-prisma-cloud": "0.20.0",
+    "@prisma/orm-postgres": "8.0.0-rc.11",
+    "alchemy": "2.0.0-beta.74",
+    "cloud-config-client": "^1.6.2",
+    "next": "16.3.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.85.0",
     "react-icons": "^5.7.0",
     "react-router": "^8.3.0",
-    "recharts": "^3.10.1"
+    "recharts": "^3.10.1",
+    "temporal-polyfill": "^1.0.4"
   },
   "devDependencies": {
     "@babel/core": "^8.0.1",
     "@eslint/js": "^10.0.1",
+    "@prisma/dev": "0.25.2",
     "@rolldown/plugin-babel": "^0.2.3",
     "@types/babel__core": "^7.20.5",
     "@types/node": "^26.2.0",
@@ -31,12 +53,17 @@
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.1.0",
     "babel-plugin-react-compiler": "^1.0.0",
-    "eslint": "^10.8.1",
+    "eslint": "^10.11.0",
+    "eslint-config-next": "^16.3.3",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.4",
     "globals": "^17.11.0",
+    "prisma": "^8.0.0-rc.15",
     "typescript": "~6.0.0",
     "typescript-eslint": "^8.67.0",
     "vite": "^8.2.2"
+  },
+  "overrides": {
+    "effect": "4.0.0-rc.112"
   }
 }

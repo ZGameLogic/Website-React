@@ -1,11 +1,10 @@
 FROM node:25.9.0-bookworm
 
-WORKDIR /dist
+WORKDIR /app
 
-RUN npm install -g serve
+COPY . .
 
-COPY dist dist
+run npm i next -g
 
 EXPOSE 3000
-
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["npm", "run", "start"]
