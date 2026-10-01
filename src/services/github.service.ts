@@ -1,7 +1,5 @@
 'use server';
 
-import { cacheLife } from 'next/cache'
-
 type GithubDeployment = {
   id: bigint
   environment: string
@@ -73,9 +71,6 @@ export type GithubRepository = {
 }
 
 export async function getRepositories(): Promise<GithubRepository[]> {
-  'use cache';
-  cacheLife('days');
-
   try {
     const query = new URLSearchParams({
       'per_page': '100'
@@ -83,6 +78,7 @@ export async function getRepositories(): Promise<GithubRepository[]> {
 
     const response = await fetch(`https://api.github.com/orgs/zgamelogic/repos?${query}`, {
       method: 'GET',
+      next: { revalidate: 86400 },
       headers: {
         Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
         'X-Github-Api-Version': '2026-03-10'
@@ -101,11 +97,9 @@ export async function getRepositories(): Promise<GithubRepository[]> {
 }
 
 export async function getProject(projectId: bigint): Promise<GithubProject> {
-  'use cache';
-  cacheLife('days');
-
   const response = await fetch(`https://api.github.com/orgs/ZGameLogic/projectsV2/${projectId.toString()}`, {
     method: 'GET',
+    next: { revalidate: 86400 },
     headers: {
       Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
       'X-Github-Api-Version': '2026-03-10'
@@ -120,6 +114,7 @@ export async function getRepositoryLanguages(gitRepo: GithubRepository): Promise
   try {
     const response = await fetch(gitRepo.languages_url, {
       method: 'GET',
+      next: { revalidate: 86400 },
       headers: {
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
         'X-Github-Api-Version': '2026-03-10'
@@ -135,9 +130,6 @@ export async function getRepositoryLanguages(gitRepo: GithubRepository): Promise
 }
 
 export async function getRepositoryDeployments(gitRepo: GithubRepository, env: GithubEnvironment): Promise<GithubDeployment[]> {
-  'use cache';
-  cacheLife('days');
-
   try {
     const query = new URLSearchParams({
       'environment': env.name
@@ -145,6 +137,7 @@ export async function getRepositoryDeployments(gitRepo: GithubRepository, env: G
 
     const response = await fetch(`${gitRepo.deployments_url}?${query.toString()}`, {
       method: 'GET',
+      next: { revalidate: 86400 },
       headers: {
         Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
         'X-Github-Api-Version': '2026-03-10'
@@ -163,12 +156,10 @@ export async function getRepositoryDeployments(gitRepo: GithubRepository, env: G
 }
 
 export async function getDeploymentStatus(deployment: GithubDeployment): Promise<GithubDeploymentStatus[]> {
-  'use cache';
-  cacheLife('days');
-
   try {
     const response = await fetch(`${deployment.statuses_url}`, {
       method: 'GET',
+      next: { revalidate: 86400 },
       headers: {
         Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
         'X-Github-Api-Version': '2026-03-10'
@@ -187,12 +178,10 @@ export async function getDeploymentStatus(deployment: GithubDeployment): Promise
 }
 
 export async function getRepositoryEnvironments(gitRepo: GithubRepository): Promise<GithubEnvironment[]> {
-  'use cache';
-  cacheLife('days');
-
   try {
     const response = await fetch(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/environments`, {
       method: 'GET',
+      next: { revalidate: 86400 },
       headers: {
         Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
         'X-Github-Api-Version': '2026-03-10'
@@ -212,12 +201,10 @@ export async function getRepositoryEnvironments(gitRepo: GithubRepository): Prom
 }
 
 export async function getRepositoryReleases(gitRepo: GithubRepository): Promise<GithubRelease[]> {
-  'use cache';
-  cacheLife('days');
-
   try {
     const response = await fetch(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/releases`, {
       method: 'GET',
+      next: { revalidate: 86400 },
       headers: {
         Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
         'X-Github-Api-Version': '2026-03-10'
@@ -236,12 +223,10 @@ export async function getRepositoryReleases(gitRepo: GithubRepository): Promise<
 }
 
 export async function getRepositoryMilestones(gitRepo: GithubRepository): Promise<GithubMilestone[]> {
-  'use cache';
-  cacheLife('days');
-
   try {
     const response = await fetch(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/milestones`, {
       method: 'GET',
+      next: { revalidate: 86400 },
       headers: {
         Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
         'X-Github-Api-Version': '2026-03-10'

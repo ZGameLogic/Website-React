@@ -25,7 +25,7 @@ let connection: Promise<void> | undefined;
 export function connectDatabase(): Promise<void> {
   connection ??= db.connect().then(() => undefined).catch((error: unknown) => {
     connection = undefined;
-    throw error;
+    // throw error;
   });
   return connection;
 }

@@ -1,8 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
-  cacheComponents: true,
+  output: 'standalone'
 };
 
 export default nextConfig;

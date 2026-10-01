@@ -4,6 +4,8 @@ import {Masonry} from '@mui/lab';
 import {Box} from '@mui/material';
 import {getRepositories} from '@/src/services/github.service.ts';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const projects = await findAllDashboardProjects();
   const repos = await getRepositories();
