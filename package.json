@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "author": "Ben Shabowski",
   "scripts": {
     "build": "next build",
     "build:production": "next build",
