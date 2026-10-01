@@ -70,24 +70,26 @@ export type GithubRepository = {
   owner: GithubUser
 }
 
+function fetchWithAuthorization(input: string){
+  return fetch(input, {
+    method: 'GET',
+    next: { revalidate: 86400 },
+    headers: {
+      Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
+      'X-Github-Api-Version': '2026-03-10'
+    }
+  })
+}
+
 export async function getRepositories(): Promise<GithubRepository[]> {
   try {
     const query = new URLSearchParams({
       'per_page': '100'
     }).toString();
 
-    const response = await fetch(`https://api.github.com/orgs/zgamelogic/repos?${query}`, {
-      method: 'GET',
-      next: { revalidate: 86400 },
-      headers: {
-        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
-        'X-Github-Api-Version': '2026-03-10'
-      }
-    });
+    const response = await fetchWithAuthorization(`https://api.github.com/orgs/zgamelogic/repos?${query}`);
 
-    if (!response.ok) {
-      return [];
-    }
+    if (!response.ok) return [];
 
     const data = await response.json();
     return Array.isArray(data) ? (data as GithubRepository[]) : [];
@@ -97,14 +99,7 @@ export async function getRepositories(): Promise<GithubRepository[]> {
 }
 
 export async function getProject(projectId: bigint): Promise<GithubProject> {
-  const response = await fetch(`https://api.github.com/orgs/ZGameLogic/projectsV2/${projectId.toString()}`, {
-    method: 'GET',
-    next: { revalidate: 86400 },
-    headers: {
-      Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
-      'X-Github-Api-Version': '2026-03-10'
-    }
-  });
+  const response = await fetchWithAuthorization(`https://api.github.com/orgs/ZGameLogic/projectsV2/${projectId.toString()}`);
 
   const data = await response.json();
   return data as GithubProject;
@@ -112,14 +107,7 @@ export async function getProject(projectId: bigint): Promise<GithubProject> {
 
 export async function getRepositoryLanguages(gitRepo: GithubRepository): Promise<string[]> {
   try {
-    const response = await fetch(gitRepo.languages_url, {
-      method: 'GET',
-      next: { revalidate: 86400 },
-      headers: {
-        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-        'X-Github-Api-Version': '2026-03-10'
-      }
-    });
+    const response = await fetchWithAuthorization(gitRepo.languages_url);
     if(!response.ok) return [];
 
     const data = await response.json();
@@ -135,18 +123,9 @@ export async function getRepositoryDeployments(gitRepo: GithubRepository, env: G
       'environment': env.name
     }).toString();
 
-    const response = await fetch(`${gitRepo.deployments_url}?${query.toString()}`, {
-      method: 'GET',
-      next: { revalidate: 86400 },
-      headers: {
-        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
-        'X-Github-Api-Version': '2026-03-10'
-      }
-    });
+    const response = await fetchWithAuthorization(`${gitRepo.deployments_url}?${query.toString()}`);
 
-    if (!response.ok) {
-      return [];
-    }
+    if (!response.ok) return [];
 
     const data = await response.json();
     return Array.isArray(data) ? (data as GithubDeployment[]) : [];
@@ -157,18 +136,9 @@ export async function getRepositoryDeployments(gitRepo: GithubRepository, env: G
 
 export async function getDeploymentStatus(deployment: GithubDeployment): Promise<GithubDeploymentStatus[]> {
   try {
-    const response = await fetch(`${deployment.statuses_url}`, {
-      method: 'GET',
-      next: { revalidate: 86400 },
-      headers: {
-        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
-        'X-Github-Api-Version': '2026-03-10'
-      }
-    });
+    const response = await fetchWithAuthorization(`${deployment.statuses_url}`);
 
-    if (!response.ok) {
-      return [];
-    }
+    if (!response.ok) return [];
 
     const data = await response.json();
     return Array.isArray(data) ? (data as GithubDeploymentStatus[]) : [];
@@ -179,18 +149,9 @@ export async function getDeploymentStatus(deployment: GithubDeployment): Promise
 
 export async function getRepositoryEnvironments(gitRepo: GithubRepository): Promise<GithubEnvironment[]> {
   try {
-    const response = await fetch(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/environments`, {
-      method: 'GET',
-      next: { revalidate: 86400 },
-      headers: {
-        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
-        'X-Github-Api-Version': '2026-03-10'
-      }
-    });
+    const response = await fetchWithAuthorization(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/environments`);
 
-    if (!response.ok) {
-      return [];
-    }
+    if (!response.ok) return [];
 
     const data = await response.json() as GithubEnvironmentsResponse;
 
@@ -202,18 +163,9 @@ export async function getRepositoryEnvironments(gitRepo: GithubRepository): Prom
 
 export async function getRepositoryReleases(gitRepo: GithubRepository): Promise<GithubRelease[]> {
   try {
-    const response = await fetch(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/releases`, {
-      method: 'GET',
-      next: { revalidate: 86400 },
-      headers: {
-        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
-        'X-Github-Api-Version': '2026-03-10'
-      }
-    });
+    const response = await fetchWithAuthorization(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/releases`);
 
-    if (!response.ok) {
-      return [];
-    }
+    if (!response.ok) return [];
 
     const data = await response.json();
     return Array.isArray(data) ? (data as GithubRelease[]) : [];
@@ -224,18 +176,9 @@ export async function getRepositoryReleases(gitRepo: GithubRepository): Promise<
 
 export async function getRepositoryMilestones(gitRepo: GithubRepository): Promise<GithubMilestone[]> {
   try {
-    const response = await fetch(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/milestones`, {
-      method: 'GET',
-      next: { revalidate: 86400 },
-      headers: {
-        Authorization: `Bearer ${ process.env.GITHUB_TOKEN}`,
-        'X-Github-Api-Version': '2026-03-10'
-      }
-    });
+    const response = await fetchWithAuthorization(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/milestones`);
 
-    if (!response.ok) {
-      return [];
-    }
+    if (!response.ok) return [];
 
     const data = await response.json();
     return Array.isArray(data) ? (data as GithubMilestone[]) : [];
