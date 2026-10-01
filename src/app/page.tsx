@@ -3,12 +3,15 @@ import {findAllDashboardProjects} from '@/src/services/database.service.ts';
 import {Masonry} from '@mui/lab';
 import {Box} from '@mui/material';
 import {getRepositories} from '@/src/services/github.service.ts';
+import DashboardDataotterTable from '@/src/app/dashboard-dataotter-table.component.tsx';
+import {getAllApplications} from '@/src/services/dataotter.service.ts';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   const projects = await findAllDashboardProjects();
   const repos = await getRepositories();
+  const applicationData = await getAllApplications();
 
   return <Box
     sx={{
@@ -32,5 +35,6 @@ export default async function Home() {
       return <DashboardProject githubRepositories={projectRepos} project={proj} key={proj.id}/>;
     })}
     </Masonry>
+    <DashboardDataotterTable applicationData={applicationData} />
   </Box>;
 }

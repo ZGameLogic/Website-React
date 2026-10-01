@@ -63,9 +63,9 @@ export async function DashboardProject({project, githubRepositories}: DashboardP
           <Typography sx={{marginRight: 1}}>Monitor Status:</Typography>
           <Chip
             size={'small'}
-            color={monitorStatus!.status ? 'success' : 'error'}
+            color={monitorStatus?.status ? 'success' : 'error'}
             variant={'outlined'}
-            label={monitorStatus!.status ? 'Up' : 'Down'}
+            label={monitorStatus?.status ? 'Up' : 'Down'}
           />
         </Stack>
       </>}
