@@ -1,14 +1,27 @@
 'use client';
 
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import {DataOtterApplication} from '@/src/services/dataotter.service.ts';
+import {
+  DataOtterApplication,
+  DataOtterMonitorHistory,
+  getMonitorHistoryData
+} from '@/src/services/dataotter.service.ts';
 import {Chip} from '@mui/material';
+import {useEffect, useState} from 'react';
 
 type DashboardDataotterTableProps = {
   applicationData: DataOtterApplication[]
 }
 
 export default function DashboardDataotterTable({ applicationData }: DashboardDataotterTableProps){
+  const [monitorHistoryData, setMonitorHistoryData] = useState<DataOtterMonitorHistory[][]>([]);
+
+  useEffect(() => {
+    getMonitorHistoryData(applicationData).then(data => {
+      setMonitorHistoryData(data);
+    });
+  }, [applicationData]);
+
   const columns: GridColDef[] = [
     {
       field: 'name',
@@ -17,7 +30,7 @@ export default function DashboardDataotterTable({ applicationData }: DashboardDa
     }, {
       field: 'status',
       headerName: 'Status',
-      width: 100,
+      width: 125,
       align: 'center',
       headerAlign: 'center',
       renderCell: (params) => {
