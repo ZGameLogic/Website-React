@@ -11,6 +11,7 @@ import {RiGitRepositoryLine} from 'react-icons/ri';
 import {GoIssueOpened, GoMilestone, GoStar, GoTag} from 'react-icons/go';
 import {Suspense} from 'react';
 import {DashboardProjectRepositoryDeployments} from '@/src/app/dashboard-project-repository-deployments.component.tsx';
+import RepositoryCommitStats from "@/src/app/repository-commit-stats.component.tsx";
 
 type DashboardProjectRepositoryProps = {
   githubRepository: GithubRepository
@@ -51,40 +52,7 @@ export async function DashboardProjectRepository({githubRepository}: DashboardPr
       </Tooltip>
       <Link target="_blank" href={releases[0].html_url}>{releases[0].name}</Link>
     </Stack>}
-    {commitActivity.length > 0 && <>
-      <Divider textAlign="left" sx={{ mt: 1 }}>
-        <Typography sx={{
-          color: 'text.secondary',
-          fontSize: '0.68rem'
-        }}>Commit Activity</Typography>
-      </Divider>
-      <Box sx={{ width: '100%', height: 50, display: 'flex', mt: 0.5, overflow: 'hidden', ml: -2 }}>
-        <LineChart
-          width={400}
-          height={50}
-          series={[
-            {
-              data: commitActivity.map(activity => activity.total),
-              curve: 'linear',
-              showMark: false,
-              color: '#3f934b',
-            },
-          ]}
-          xAxis={[{ data: commitActivity.map((_, index) => index) }]}
-          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-          slotProps={{ tooltip: { trigger: 'none' } }}
-          axisHighlight={{ x: 'none', y: 'none' }}
-          sx={{
-            '& .MuiLineElement-root': {
-              strokeWidth: 2,
-            },
-            '& .MuiChartsAxis-bottom': { display: 'none' },
-            '& .MuiChartsAxis-left': { display: 'none' },
-            '& .MuiChartsGrid-root': { display: 'none' },
-          }}
-        />
-      </Box>
-    </>}
+    <RepositoryCommitStats stats={commitActivity} />
     {environments.length > 0 && <>
       <Divider textAlign="left">
           <Typography sx={{
