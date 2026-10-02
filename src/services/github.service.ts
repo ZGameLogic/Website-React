@@ -63,6 +63,7 @@ export type GithubRepository = {
   deployments_url: string
   releases_url: string
   milestones_url: string
+  contributors_url: string
   description: string
   id: bigint
   stargazers_count: bigint
@@ -201,6 +202,19 @@ export async function getRepositoryCommitActivity(gitRepo: GithubRepository): Pr
 
     const data = await response.json();
     return Array.isArray(data) ? (data as GithubRepositoryCommitActivity[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function getRepositoryContributors(gitRepo: GithubRepository): Promise<GithubUser[]> {
+  try {
+    const response = await fetchWithAuthorization(gitRepo.contributors_url);
+
+    if (!response.ok) return [];
+
+    const data = await response.json();
+    return Array.isArray(data) ? (data as GithubUser[]) : [];
   } catch {
     return [];
   }
