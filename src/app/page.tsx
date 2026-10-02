@@ -35,6 +35,6 @@ export default async function Home() {
       return <DashboardProject githubRepositories={projectRepos} project={proj} key={proj.id}/>;
     })}
     </Masonry>
-    <DashboardDataotterTable applicationData={applicationData} />
+    {/*<DashboardDataotterTable applicationData={applicationData} />*/}
   </Box>;
 }
