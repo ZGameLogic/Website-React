@@ -1,5 +1,6 @@
 import {Box, Stack, Tooltip, Link, Typography, Divider, LinearProgress} from '@mui/material';
 import {
+  getRepositoryCommitActivity,
   getRepositoryEnvironments,
   getRepositoryMilestones,
   getRepositoryReleases,
@@ -18,6 +19,7 @@ export async function DashboardProjectRepository({githubRepository}: DashboardPr
   const releases = await getRepositoryReleases(githubRepository);
   const environments = await getRepositoryEnvironments(githubRepository);
   const milestones = await getRepositoryMilestones(githubRepository);
+  const commitActivity = await getRepositoryCommitActivity(githubRepository);
 
   return <Box
     sx={{
@@ -48,6 +50,7 @@ export async function DashboardProjectRepository({githubRepository}: DashboardPr
       </Tooltip>
       <Link target="_blank" href={releases[0].html_url}>{releases[0].name}</Link>
     </Stack>}
+    {}
     {environments.length > 0 && <>
       <Divider textAlign="left">
           <Typography sx={{

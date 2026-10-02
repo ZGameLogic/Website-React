@@ -70,6 +70,12 @@ export type GithubRepository = {
   owner: GithubUser
 }
 
+export type GithubRepositoryCommitActivity = {
+  days: number[];
+  total: number;
+  week: number;
+}
+
 function fetchWithAuthorization(input: string){
   return fetch(input, {
     method: 'GET',
@@ -182,6 +188,19 @@ export async function getRepositoryMilestones(gitRepo: GithubRepository): Promis
 
     const data = await response.json();
     return Array.isArray(data) ? (data as GithubMilestone[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export async function getRepositoryCommitActivity(gitRepo: GithubRepository): Promise<GithubRepositoryCommitActivity[]> {
+  try {
+    const response = await fetchWithAuthorization(`https://api.github.com/repos/zgamelogic/${gitRepo.name}/stats/commit_activity`);
+
+    if (!response.ok) return [];
+
+    const data = await response.json();
+    return Array.isArray(data) ? (data as GithubRepositoryCommitActivity[]) : [];
   } catch {
     return [];
   }
