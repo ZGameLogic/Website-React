@@ -1,4 +1,5 @@
 import {Box, Stack, Tooltip, Link, Typography, Divider, LinearProgress} from '@mui/material';
+import { LineChart } from '@mui/x-charts/LineChart';
 import {
   getRepositoryCommitActivity,
   getRepositoryEnvironments,
@@ -50,7 +51,40 @@ export async function DashboardProjectRepository({githubRepository}: DashboardPr
       </Tooltip>
       <Link target="_blank" href={releases[0].html_url}>{releases[0].name}</Link>
     </Stack>}
-    {}
+    {commitActivity.length > 0 && <>
+      <Divider textAlign="left" sx={{ mt: 1 }}>
+        <Typography sx={{
+          color: 'text.secondary',
+          fontSize: '0.68rem'
+        }}>Commit Activity</Typography>
+      </Divider>
+      <Box sx={{ width: '100%', height: 50, display: 'flex', mt: 0.5, overflow: 'hidden', ml: -2 }}>
+        <LineChart
+          width={400}
+          height={50}
+          series={[
+            {
+              data: commitActivity.map(activity => activity.total),
+              curve: 'linear',
+              showMark: false,
+              color: '#3f934b',
+            },
+          ]}
+          xAxis={[{ data: commitActivity.map((_, index) => index) }]}
+          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+          slotProps={{ tooltip: { trigger: 'none' } }}
+          axisHighlight={{ x: 'none', y: 'none' }}
+          sx={{
+            '& .MuiLineElement-root': {
+              strokeWidth: 2,
+            },
+            '& .MuiChartsAxis-bottom': { display: 'none' },
+            '& .MuiChartsAxis-left': { display: 'none' },
+            '& .MuiChartsGrid-root': { display: 'none' },
+          }}
+        />
+      </Box>
+    </>}
     {environments.length > 0 && <>
       <Divider textAlign="left">
           <Typography sx={{
