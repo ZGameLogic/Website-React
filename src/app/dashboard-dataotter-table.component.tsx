@@ -19,6 +19,7 @@ export default function DashboardDataotterTable({ applicationData }: DashboardDa
       headerName: 'Status',
       width: 100,
       align: 'center',
+      headerAlign: 'center',
       renderCell: (params) => {
         const status = params.row.status;
         return <Chip
@@ -31,5 +32,8 @@ export default function DashboardDataotterTable({ applicationData }: DashboardDa
     }
   ];
 
-  return <DataGrid rows={applicationData} columns={columns} />;
+  return <DataGrid
+    rows={applicationData}
+    columns={columns}
+  />;
 }
