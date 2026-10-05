@@ -36,7 +36,7 @@ type GithubMilestone = {
   closed_issues: number
 }
 
-type GithubUser = {
+export type GithubUser = {
   login: string
   id: bigint
   avatar_url: string

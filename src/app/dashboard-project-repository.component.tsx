@@ -1,4 +1,4 @@
-import {Box, Stack, Tooltip, Link, Typography, Divider, LinearProgress, Avatar} from '@mui/material';
+import {Box, Stack, Tooltip, Link, Typography, Divider, LinearProgress} from '@mui/material';
 import {
   getRepositoryCommitActivity,
   getRepositoryContributors,
@@ -12,6 +12,9 @@ import {GoIssueOpened, GoMilestone, GoStar, GoTag} from 'react-icons/go';
 import {Suspense} from 'react';
 import {DashboardProjectRepositoryDeployments} from '@/src/app/dashboard-project-repository-deployments.component.tsx';
 import RepositoryCommitStats from '@/src/app/repository-commit-stats.component.tsx';
+import {
+  DashboardProjectRepositoryContributors
+} from '@/src/app/dashboard-project-repository-contributors.component.tsx';
 
 type DashboardProjectRepositoryProps = {
   githubRepository: GithubRepository
@@ -103,16 +106,6 @@ export async function DashboardProjectRepository({githubRepository}: DashboardPr
         fontSize: '0.68rem'
       }}>Contributors</Typography>
     </Divider>
-    <Stack
-      sx={{
-        overflowX: 'auto'
-      }}
-      direction={'row'}
-      spacing={1}
-    >{contributors.map(cont => {
-      return <Tooltip key={cont.id} title={cont.login} arrow >
-        <Avatar sx={{ width: 24, height: 24, mr: 1 }} src={cont.avatar_url} />
-      </Tooltip>
-    })}</Stack>
+    <DashboardProjectRepositoryContributors contributors={contributors} />
   </Box>
 }
