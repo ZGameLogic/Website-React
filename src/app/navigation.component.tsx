@@ -23,6 +23,18 @@ export default function NavigationComponent(){
       >
         Project Dashboard
       </Button>
+      <Button
+        sx={{
+          borderRadius: 0,
+          '&.active': { borderBottom: '2px solid white' },
+          ...(pathname === '/architecture' && { borderBottom: '2px solid white' })
+        }}
+        color={'inherit'}
+        component={Link}
+        href={'/architecture'}
+      >
+        architecture
+      </Button>
     </Toolbar>
   </AppBar>;
 }
