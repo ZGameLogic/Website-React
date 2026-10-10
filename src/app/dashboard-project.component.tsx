@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Box,
   Button,
@@ -11,7 +13,7 @@ import {
   Typography
 } from '@mui/material';
 import {findAllDashboardProjects} from '@/src/services/database.service.ts';
-import {ReactElement, Suspense} from 'react';
+import {ReactElement, Suspense, useEffect, useState} from 'react';
 import {DashboardProjectProject} from '@/src/app/dashboard-project-project.component.tsx';
 import {getRepositoryLanguages, GithubRepository} from '@/src/services/github.service.ts';
 import {DashboardProjectRepository} from '@/src/app/dashboard-project-repository.component.tsx';
@@ -22,22 +24,25 @@ import {GrHtml5, GrMysql} from 'react-icons/gr';
 import {TbBrandTypescript, TbFileTypeCss} from 'react-icons/tb';
 import {LiaSwift} from 'react-icons/lia';
 import {HiH2} from 'react-icons/hi2';
-import {getDataOtterApplication} from '@/src/services/dataotter.service.ts';
+import {DataOtterApplication, getDataOtterApplication} from '@/src/services/dataotter.service.ts';
 
 type DashboardProjectProps = {
   project: Awaited<ReturnType<typeof findAllDashboardProjects>>[number];
   githubRepositories: GithubRepository[];
 }
 
-export async function DashboardProject({project, githubRepositories}: DashboardProjectProps){
+export function DashboardProject({project, githubRepositories}: DashboardProjectProps){
   const LANGUAGE_SIZE = 23;
-  const languageArrays = await Promise.all(
-    githubRepositories.map(repo => getRepositoryLanguages(repo))
-  );
+  const [languageArrays, setLanguageArrays] = useState<string[][]>([]);
+  const [monitorStatus, setMonitorStatus] = useState<DataOtterApplication | undefined>(undefined);
   const languages = [...new Set(languageArrays.flat()), ...project.additionalProjectAspects.map(apa => apa.aspect)];
-  const monitorStatus = project.dataotterApplicationLinks.length > 0 ?
-    await getDataOtterApplication(Number(project.dataotterApplicationLinks[0].applicationId)) : undefined;
+  // const monitorStatus = project.dataotterApplicationLinks.length > 0 ?
+  //   await getDataOtterApplication(Number(project.dataotterApplicationLinks[0].applicationId)) : undefined;
 
+  useEffect(() => {
+    Promise.all(githubRepositories.map(repo => getRepositoryLanguages(repo))).then(res => setLanguageArrays(res));
+    getDataOtterApplication(Number(project.dataotterApplicationLinks[0].applicationId)).then(res => setMonitorStatus(res));
+  }, []);
 
   const IconTooltip = ({tooltip, icon}: {
     tooltip: string;

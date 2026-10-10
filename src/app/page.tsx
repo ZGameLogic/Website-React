@@ -1,17 +1,12 @@
+'use client';
+
 import {DashboardProject} from '@/src/app/dashboard-project.component.tsx';
-import {findAllDashboardProjects} from '@/src/services/database.service.ts';
 import {Masonry} from '@mui/lab';
 import {Box} from '@mui/material';
-import {getRepositories} from '@/src/services/github.service.ts';
-import DashboardDataotterTable from '@/src/app/dashboard-dataotter-table.component.tsx';
-import {getAllApplications} from '@/src/services/dataotter.service.ts';
+import {useGlobalData} from '@/src/global/global-data.hook.ts';
 
-export const dynamic = 'force-dynamic';
-
-export default async function Home() {
-  const projects = await findAllDashboardProjects();
-  const repos = await getRepositories();
-  const applicationData = await getAllApplications();
+export default function Home() {
+  const { dashboardProjects: projects, github } = useGlobalData();
 
   return <Box
     sx={{
@@ -29,12 +24,11 @@ export default async function Home() {
       if (!a.favorite && b.favorite) return 1;
       return 0;
     }).map(proj => {
-      const projectRepos = repos.filter(r => {
+      const projectRepos = github.repositories.filter(r => {
         return proj.githubRepositoryLinks.map(rl => rl.githubRepositoryId).includes(BigInt(r.id));
       });
       return <DashboardProject githubRepositories={projectRepos} project={proj} key={proj.id}/>;
     })}
     </Masonry>
-    {/*<DashboardDataotterTable applicationData={applicationData} />*/}
   </Box>;
 }

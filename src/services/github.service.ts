@@ -44,7 +44,7 @@ export type GithubUser = {
   type: string
 }
 
-type GithubProject = {
+export type GithubProject = {
   id: bigint
   number: bigint
   title: string

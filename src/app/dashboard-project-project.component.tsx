@@ -1,13 +1,20 @@
+'use client';
+
 import {Box, Link, Stack, Tooltip} from '@mui/material';
 import {VscGithubProject} from 'react-icons/vsc';
-import {getProject} from '@/src/services/github.service.ts';
+import {getProject, GithubProject} from '@/src/services/github.service.ts';
+import {useEffect, useState} from "react";
 
 type DashboardProjectProjectProps = {
   id: bigint;
 };
 
-export async function DashboardProjectProject({ id }: DashboardProjectProjectProps){
-  const projectData = await getProject(id);
+export function DashboardProjectProject({ id }: DashboardProjectProjectProps){
+  const [projectData, setProjectData] = useState<GithubProject>();
+  useEffect(() => {
+    getProject(id).then(data => setProjectData(data));
+  }, []);
+  if(projectData === undefined) return <></>;
   const projectLink = `https://github.com/orgs/ZGameLogic/projects/${projectData.number}`;
 
   return (
