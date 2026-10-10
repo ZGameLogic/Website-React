@@ -3,8 +3,8 @@
 import {Card, CardContent, Typography, Stack} from '@mui/material';
 import {Handle, Position} from '@xyflow/react';
 import KubernetesLineItem from '@/src/app/architecture/kubernetes-line-item.component.tsx';
-import {DataOtterDeviceStatus, getDataOtterDevices} from '@/src/services/dataotter.service.ts';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback} from 'react';
+import {useGlobalData} from "@/src/global/global-data.hook.ts";
 
 export type KubernetesNodeData = {
   items: KubernetesNodeDataType[];
@@ -21,16 +21,13 @@ type KubernetesNodeProps = {
 }
 
 export default function KubernetesNode({ data, isConnectable }: KubernetesNodeProps) {
-  const [statuses, setStatuses] = useState<DataOtterDeviceStatus[] | undefined>(undefined);
-
-  useEffect(() => {
-    getDataOtterDevices().then(setStatuses)
-  }, []);
+  const { dataOtter } = useGlobalData();
 
   const getStatus = useCallback((id: number) => {
-    if(statuses === undefined) return undefined;
-    return statuses.find(l => l.id === id) !== undefined;
-  }, [statuses]);
+    const status = dataOtter.deviceStatuses.find(l => l.id === id);
+    if(status === undefined) return undefined;
+    return status.status !== undefined;
+  }, [dataOtter]);
 
   return <>
     <Card variant={'outlined'}>
