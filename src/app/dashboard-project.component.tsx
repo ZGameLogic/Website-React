@@ -36,8 +36,6 @@ export function DashboardProject({project, githubRepositories}: DashboardProject
   const [languageArrays, setLanguageArrays] = useState<string[][]>([]);
   const [monitorStatus, setMonitorStatus] = useState<DataOtterApplication | undefined>(undefined);
   const languages = [...new Set(languageArrays.flat()), ...project.additionalProjectAspects.map(apa => apa.aspect)];
-  // const monitorStatus = project.dataotterApplicationLinks.length > 0 ?
-  //   await getDataOtterApplication(Number(project.dataotterApplicationLinks[0].applicationId)) : undefined;
 
   useEffect(() => {
     Promise.all(githubRepositories.map(repo => getRepositoryLanguages(repo))).then(res => setLanguageArrays(res));

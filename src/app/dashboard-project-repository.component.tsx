@@ -1,3 +1,5 @@
+'use client';
+
 import {Box, Stack, Tooltip, Link, Typography, Divider, LinearProgress} from '@mui/material';
 import {
   getRepositoryCommitActivity,
@@ -5,11 +7,12 @@ import {
   getRepositoryEnvironments,
   getRepositoryMilestones,
   getRepositoryReleases,
+  GithubRelease,
   GithubRepository
 } from '@/src/services/github.service.ts';
 import {RiGitRepositoryLine} from 'react-icons/ri';
 import {GoIssueOpened, GoMilestone, GoStar, GoTag} from 'react-icons/go';
-import {Suspense} from 'react';
+import {Suspense, useEffect, useState} from 'react';
 import {DashboardProjectRepositoryDeployments} from '@/src/app/dashboard-project-repository-deployments.component.tsx';
 import RepositoryCommitStats from '@/src/app/repository-commit-stats.component.tsx';
 import {
@@ -20,7 +23,17 @@ type DashboardProjectRepositoryProps = {
   githubRepository: GithubRepository
 }
 
-export async function DashboardProjectRepository({githubRepository}: DashboardProjectRepositoryProps){
+export function DashboardProjectRepository({githubRepository}: DashboardProjectRepositoryProps){
+  const [releases, setReleases] = useState<GithubRelease[]>();
+  const [environments, setEnvironments] = useState<GithubRelease[]>();
+  const [milestones, setReleases] = useState<GithubRelease[]>();
+  const [commitActivity, setReleases] = useState<GithubRelease[]>();
+  const [contributors, setReleases] = useState<GithubRelease[]>();
+
+  useEffect(() => {
+    getRepositoryReleases(githubRepository).then(data => setReleases(data));
+  }, []);
+
   const releases = await getRepositoryReleases(githubRepository);
   const environments = await getRepositoryEnvironments(githubRepository);
   const milestones = await getRepositoryMilestones(githubRepository);

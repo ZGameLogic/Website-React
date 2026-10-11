@@ -7,7 +7,7 @@ type GithubDeployment = {
   create_at: string
 }
 
-type GithubRelease = {
+export type GithubRelease = {
   html_url: string
   name: string
 }

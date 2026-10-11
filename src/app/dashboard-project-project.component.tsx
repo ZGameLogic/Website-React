@@ -3,7 +3,7 @@
 import {Box, Link, Stack, Tooltip} from '@mui/material';
 import {VscGithubProject} from 'react-icons/vsc';
 import {getProject, GithubProject} from '@/src/services/github.service.ts';
-import {useEffect, useState} from "react";
+import {useEffect, useState} from 'react';
 
 type DashboardProjectProjectProps = {
   id: bigint;
