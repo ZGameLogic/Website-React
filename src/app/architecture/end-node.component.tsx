@@ -2,16 +2,21 @@ import {Handle, Position} from '@xyflow/react';
 import {Card, Stack, Typography} from '@mui/material';
 import { CiServer } from 'react-icons/ci';
 import {FaCubes} from 'react-icons/fa';
+import {GoDatabase} from 'react-icons/go';
 
 export type EndNodeData = {
-  icon: 'service' | 'computer' | 'none';
+  icon: 'service' | 'computer' | 'database' | 'none';
   label: string;
 };
 
 export default function EndNode({ data }: { data: EndNodeData }){
+  const iconProps = {
+    size: 12
+  }
   const icon =  {
-    computer: <CiServer />,
-    service: <FaCubes />,
+    computer: <CiServer {...iconProps} />,
+    service: <FaCubes {...iconProps} />,
+    database: <GoDatabase {...iconProps} />,
     none: <></>
   }[data.icon] ?? <></>;
 
