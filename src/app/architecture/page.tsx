@@ -47,13 +47,24 @@ export default function ArchitecturePage() {
       connectable: false,
       targetPosition: Position.Left,
       sourcePosition: undefined,
-      data: { label: app },
-    }))
+      data: { label: app, icon: 'service' },
+    })),
+    {
+      id:'d1',
+      type: 'endNode',
+      position: { x: 300, y: (applications.length * 50) - (applications.length * 25) + 0.5 * 225 },
+      connectable: false,
+      targetPosition: Position.Left,
+      sourcePosition: undefined,
+      data: { label: 'Server', icon: 'computer' },
+    }
   ];
 
-  const initialEdges = applications.map((_app, index) => ({
+  const initialEdges = [...applications.map((_app, index) => ({
     id: `k3s-n${index}`, source: 'k3s', target: `n${index}`, type: 'smoothstep', animated: true
-  }))
+  })),
+    {id: 'k3s-d1', source: 'k3s', target: 'd1', type: 'smoothstep', animated: true}
+  ]
 
   const theme = useTheme();
   const [nodes, setNodes] = useState<ArchitectureNode[]>(initialNodes);

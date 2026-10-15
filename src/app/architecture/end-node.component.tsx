@@ -1,11 +1,20 @@
 import {Handle, Position} from '@xyflow/react';
-import {Card, Typography} from '@mui/material';
+import {Card, Stack, Typography} from '@mui/material';
+import { CiServer } from 'react-icons/ci';
+import {FaCubes} from 'react-icons/fa';
 
 export type EndNodeData = {
+  icon: 'service' | 'computer' | 'none';
   label: string;
 };
 
 export default function EndNode({ data }: { data: EndNodeData }){
+  const icon =  {
+    computer: <CiServer />,
+    service: <FaCubes />,
+    none: <></>
+  }[data.icon] ?? <></>;
+
   return <>
     <Handle type={'target'} position={Position.Left} />
     <Card variant={'outlined'} sx={{
@@ -13,7 +22,10 @@ export default function EndNode({ data }: { data: EndNodeData }){
       height: 25,
       justifyContent: 'center'
     }}>
-      <Typography sx={{ textAlign: 'center'}}>{data.label}</Typography>
+      <Stack direction={'row'} sx={{alignItems: 'center', pl: 1}} spacing={1}>
+        {icon}
+        <Typography sx={{ textAlign: 'center'}}>{data.label}</Typography>
+      </Stack>
     </Card>
   </>
 }
