@@ -3,10 +3,10 @@
 import {Background, NodeChange, ReactFlow, applyNodeChanges, type Node, Position} from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import {useCallback, useEffect, useState} from 'react';
-import {useTheme} from '@mui/material/styles';
+import {useTheme, alpha} from '@mui/material/styles';
 import KubernetesNode, {KubernetesNodeData} from '@/src/app/architecture/kubernetes-node.component.tsx';
 import EndNode, {EndNodeData} from '@/src/app/architecture/end-node.component.tsx';
-import {getNodes} from "@/src/services/kubernetes.service.ts";
+import {getNodes} from '@/src/services/kubernetes.service.ts';
 
 type ArchitectureNode =
   | Node<KubernetesNodeData, 'kubernetesNode'>
@@ -14,10 +14,13 @@ type ArchitectureNode =
   | Node<{ label: string }, 'default'>;
 
 export default function ArchitecturePage() {
+  const theme = useTheme();
+
   const nodeTypes = {
     kubernetesNode: KubernetesNode,
     endNode: EndNode
   };
+
   const applications: EndNodeData[] = [
     {label: 'Discord Bot', icon: 'service'},
     {label: 'Wraith', icon: 'service'},
@@ -29,8 +32,20 @@ export default function ArchitecturePage() {
   ];
   const initialNodes: ArchitectureNode[] = [
     {
+      id: 'kubernetes',
+      type: 'group',
+      data: { label: 'test' },
+      style: {
+        width: 400,
+        height: 400,
+        backgroundColor: alpha(theme.palette.primary.main, 0.1)
+      },
+      position: { x: 0, y: 0 },
+    },
+    {
       id: 'k3s',
       type: 'kubernetesNode',
+      parentId: 'kubernetes',
       position: { x: 0, y: 0 },
       data: {
         items: [
@@ -47,6 +62,7 @@ export default function ArchitecturePage() {
       type: 'endNode',
       position: { x: 300, y: (index * 50) - (applications.length * 25) + 0.5 * 225 },
       connectable: false,
+      parentId: 'kubernetes',
       targetPosition: Position.Left,
       sourcePosition: undefined,
       data: { label: app.label, icon: app.icon },
@@ -57,7 +73,6 @@ export default function ArchitecturePage() {
     id: `k3s-n${index}`, source: 'k3s', target: `n${index}`, type: 'smoothstep', animated: true
   }));
 
-  const theme = useTheme();
   const [nodes, setNodes] = useState<ArchitectureNode[]>(initialNodes);
   const onNodesChange = useCallback((changes: NodeChange<ArchitectureNode>[]) => {
     setNodes(currentNodes => applyNodeChanges(changes, currentNodes));
