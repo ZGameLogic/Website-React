@@ -2,10 +2,11 @@
 
 import {Background, NodeChange, ReactFlow, applyNodeChanges, type Node, Position} from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useTheme} from '@mui/material/styles';
 import KubernetesNode, {KubernetesNodeData} from '@/src/app/architecture/kubernetes-node.component.tsx';
 import EndNode, {EndNodeData} from '@/src/app/architecture/end-node.component.tsx';
+import {getNodes} from "@/src/services/kubernetes.service.ts";
 
 type ArchitectureNode =
   | Node<KubernetesNodeData, 'kubernetesNode'>
@@ -61,6 +62,13 @@ export default function ArchitecturePage() {
   const onNodesChange = useCallback((changes: NodeChange<ArchitectureNode>[]) => {
     setNodes(currentNodes => applyNodeChanges(changes, currentNodes));
   }, []);
+
+  useEffect(() => {
+    getNodes().then(nodes => {
+      console.log(nodes);
+    });
+  }, []);
+
   return <div style={{ width: '100vw', height: '91vh', justifyContent: 'center' }}>
     <ReactFlow
       nodes={nodes}
