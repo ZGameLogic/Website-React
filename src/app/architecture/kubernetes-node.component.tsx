@@ -5,6 +5,7 @@ import {Handle, Position} from '@xyflow/react';
 import KubernetesLineItem from '@/src/app/architecture/kubernetes-line-item.component.tsx';
 import {useCallback} from 'react';
 import {useGlobalData} from "@/src/global/global-data.hook.ts";
+import {alpha, useTheme} from "@mui/material/styles";
 
 export type KubernetesNodeData = {
   items: KubernetesNodeDataType[];
@@ -22,6 +23,7 @@ type KubernetesNodeProps = {
 
 export default function KubernetesNode({ data, isConnectable }: KubernetesNodeProps) {
   const { dataOtter } = useGlobalData();
+  const theme = useTheme();
 
   const getStatus = useCallback((id: number) => {
     const status = dataOtter.deviceStatuses.find(l => l.id === id);
@@ -30,7 +32,7 @@ export default function KubernetesNode({ data, isConnectable }: KubernetesNodePr
   }, [dataOtter]);
 
   return <>
-    <Card variant={'outlined'}>
+    <Card variant={'outlined'} sx={{backgroundColor: alpha(theme.palette.primary.main, 0.005)}}>
       <CardContent>
         <Typography variant={'h6'}>Kubernetes Cluster</Typography>
         <Stack spacing={1}>

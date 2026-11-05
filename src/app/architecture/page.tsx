@@ -32,21 +32,11 @@ export default function ArchitecturePage() {
   ];
   const initialNodes: ArchitectureNode[] = [
     {
-      id: 'kubernetes',
-      type: 'group',
-      data: { label: 'test' },
-      style: {
-        width: 400,
-        height: 400,
-        backgroundColor: alpha(theme.palette.primary.main, 0.1)
-      },
-      position: { x: 0, y: 0 },
-    },
-    {
       id: 'k3s',
       type: 'kubernetesNode',
       parentId: 'kubernetes',
       position: { x: 0, y: 0 },
+      style: { backgroundColor: alpha(theme.palette.primary.main, .125)},
       data: {
         items: [
           { label: 'master', doid: 2 },
