@@ -52,7 +52,7 @@ export default function ArchitecturePage() {
       type: 'endNode',
       position: { x: 300, y: (index * 50) - (applications.length * 25) + 0.5 * 225 },
       connectable: false,
-      parentId: 'kubernetes',
+      parentId: 'k3s',
       targetPosition: Position.Left,
       sourcePosition: undefined,
       data: { label: app.label, icon: app.icon },
